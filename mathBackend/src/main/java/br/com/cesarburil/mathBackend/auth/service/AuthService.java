@@ -10,7 +10,11 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
 import java.security.Key;
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -19,10 +23,15 @@ public class AuthService {
 
     private final UserRepository userRepository;
 
-    public AuthService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    private CharSequence secret;
 
+    public AuthService(UserRepository userRepository) throws NoSuchAlgorithmException {
+        this.userRepository = userRepository;
+
+        SecretKey generatedKey = generateKey();
+        this.secret = Base64.getEncoder().encodeToString(generatedKey.getEncoded());
+
+    }
 
     public String generateToken(String username) {
         return Jwts
@@ -34,12 +43,6 @@ public class AuthService {
                 .signWith(getKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
-
-    private Key getKey() {
-        byte[] bytes = Decoders.BASE64.decode("");
-        return Keys.hmacShaKeyFor(bytes);
-    }
-
 
     public String register(UserDto userDto) {
 
@@ -56,4 +59,16 @@ public class AuthService {
 
         return savedUser.getUsername();
     }
+
+    private Key getKey() {
+        byte[] bytes = Decoders.BASE64.decode(secret);
+        return Keys.hmacShaKeyFor(bytes);
+    }
+
+
+    private SecretKey generateKey() throws NoSuchAlgorithmException {
+        KeyGenerator keyGen = KeyGenerator.getInstance("HmacSHA256");
+        return keyGen.generateKey();
+    }
+
 }
