@@ -1,11 +1,11 @@
 package br.com.cesarburil.mathBackend.auth.config;
 
+import br.com.cesarburil.mathBackend.auth.service.JwtService;
 import br.com.cesarburil.mathBackend.auth.service.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.context.ApplicationContext;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,11 +20,12 @@ public class JwtFilter extends OncePerRequestFilter {
 
     private UserService userService;
 
-    private ApplicationContext applicationContext;
+    private JwtService jwtService;
 
-    public JwtFilter(UserService userService, ApplicationContext applicationContext) {
+
+    public JwtFilter(UserService userService, JwtService jwtService) {
         this.userService = userService;
-        this.applicationContext = applicationContext;
+        this.jwtService = jwtService;
     }
 
     @Override
@@ -39,13 +40,13 @@ public class JwtFilter extends OncePerRequestFilter {
 
             token = header.substring(7);
 
-            username = getUsernameFromToken(token);
+            username = jwtService.getUsernameFromToken(token);
 
             if (username != "" && SecurityContextHolder.getContext().getAuthentication() == null) {
 
                 UserDetails user = userService.loadUserByUsername(username);
 
-                if (validateToken(token, user)) {
+                if (jwtService.validateToken(token, user)) {
 
                     UsernamePasswordAuthenticationToken authToken =
                             new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
@@ -63,11 +64,5 @@ public class JwtFilter extends OncePerRequestFilter {
 
     }
 
-    private boolean validateToken(String token, UserDetails userDetails) {
-        return false;
-    }
 
-    private String getUsernameFromToken(String token) {
-        return "";
-    }
 }
