@@ -23,26 +23,15 @@ public class AuthService {
 
     private final UserRepository userRepository;
 
-    private CharSequence secret;
 
     public AuthService(UserRepository userRepository) throws NoSuchAlgorithmException {
         this.userRepository = userRepository;
 
-        SecretKey generatedKey = generateKey();
-        this.secret = Base64.getEncoder().encodeToString(generatedKey.getEncoded());
+
 
     }
 
-    public String generateToken(String username) {
-        return Jwts
-                .builder()
-                .issuer(username)
-                .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 5))
-                .claims(new HashMap<>())
-                .signWith(getKey(), SignatureAlgorithm.HS256)
-                .compact();
-    }
+
 
     public String register(UserDto userDto) {
 
@@ -60,15 +49,5 @@ public class AuthService {
         return savedUser.getUsername();
     }
 
-    private Key getKey() {
-        byte[] bytes = Decoders.BASE64.decode(secret);
-        return Keys.hmacShaKeyFor(bytes);
-    }
-
-
-    private SecretKey generateKey() throws NoSuchAlgorithmException {
-        KeyGenerator keyGen = KeyGenerator.getInstance("HmacSHA256");
-        return keyGen.generateKey();
-    }
 
 }
