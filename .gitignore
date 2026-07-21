@@ -1,0 +1,42 @@
+# =========================================================================
+# Global
+# =========================================================================
+.idea/
+*.iws
+*.iml
+*.ipr
+.vscode/
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# =========================================================================
+# Backend
+# =========================================================================
+HELP.md
+mathBackend/target/
+mathBackend/.mvn/wrapper/maven-wrapper.jar
+!**/mathBackend/src/main/**/target/
+!**/mathBackend/src/test/**/target/
+mathBackend/build/
+!**/mathBackend/src/main/**/build/
+!**/mathBackend/src/test/**/build/
+**/src/main/resources/application.properties
+mathBackend/.env
+
+# =========================================================================
+# Frontend
+# =========================================================================
+mathFrontend/node_modules/
+mathFrontend/dist/
+mathFrontend/.env
+mathFrontend/.production.env
