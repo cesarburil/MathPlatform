@@ -9,6 +9,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins = "*")
 @RestController
 public class AuthController {
 
@@ -39,6 +40,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public String register(@RequestBody UserDto userDto) {
+        System.out.println(userDto.getUsername());
         return authService.register(userDto);
     }
 

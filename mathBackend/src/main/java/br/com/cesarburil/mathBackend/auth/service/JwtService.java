@@ -1,5 +1,7 @@
 package br.com.cesarburil.mathBackend.auth.service;
 
+import br.com.cesarburil.mathBackend.auth.model.User;
+import br.com.cesarburil.mathBackend.auth.repository.UserRepository;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -18,15 +20,20 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
+    private UserRepository userRepository;
 
     private CharSequence secret;
 
-    public JwtService() throws NoSuchAlgorithmException {
+    public JwtService(UserRepository userRepository) throws NoSuchAlgorithmException {
         SecretKey generatedKey = generateKey();
         this.secret = Base64.getEncoder().encodeToString(generatedKey.getEncoded());
+        this.userRepository = userRepository;
     }
 
     public String generateToken(String username) {
+
+        UserDetails user = userRepository.findByUsername(username);
+
         return Jwts
                 .builder()
                 .subject(username)
