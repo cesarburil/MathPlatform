@@ -1,0 +1,13 @@
+<p>login works!</p>
+
+<form [formGroup]="userForm" (submit)="login()">
+  <section>
+    <label>Username</label>
+    <input formControlName="username">
+  </section>
+  <section>
+    <label>Password</label>
+    <input formControlName="password">
+  </section>
+  <button type="submit">Login</button>
+</form>

@@ -1,0 +1,13 @@
+<p>register works!</p>
+
+<form [formGroup]="userForm" (submit)="register()">
+  <section>
+    <label>Username</label>
+    <input formControlName="username">
+  </section>
+  <section>
+    <label>Password</label>
+    <input formControlName="password">
+  </section>
+  <button type="submit">Login</button>
+</form>

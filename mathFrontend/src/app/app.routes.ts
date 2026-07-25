@@ -1,0 +1,16 @@
+import { ActivatedRoute, Routes } from '@angular/router';
+import { Home } from './components/home/home';
+import { Login } from './components/login/login';
+import { authguardGuard } from './authguard-guard';
+import { Register } from './components/register/register';
+
+export const routes: Routes = [
+  { path: "login", component: Login },
+  { path: "register", component: Register },
+  {
+    path: "", canActivate: [authguardGuard], children: [
+      { path: "", pathMatch: "full", redirectTo: "home" },
+      { path: "home", component: Home },
+    ]
+  }
+];
