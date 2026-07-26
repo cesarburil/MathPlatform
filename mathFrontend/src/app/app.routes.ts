@@ -3,6 +3,8 @@ import { Home } from './components/home/home';
 import { Login } from './components/login/login';
 import { authguardGuard } from './authguard-guard';
 import { Register } from './components/register/register';
+import { Payment } from './components/payment/payment';
+import { Categories } from './components/categories/categories';
 
 export const routes: Routes = [
   { path: "login", component: Login },
@@ -11,6 +13,8 @@ export const routes: Routes = [
     path: "", canActivate: [authguardGuard], children: [
       { path: "", pathMatch: "full", redirectTo: "home" },
       { path: "home", component: Home },
+      { path: "pay", component: Payment},
+      { path: "categories", component: Categories}
     ]
   }
 ];

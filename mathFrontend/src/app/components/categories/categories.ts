@@ -1,0 +1,24 @@
+import { Component, signal } from '@angular/core';
+import { CategoriesService } from '../../services/categories.service';
+import { CategoryResponse } from '../../models/CategoryResponse';
+
+@Component({
+  selector: 'app-categories',
+  imports: [],
+  templateUrl: './categories.html',
+  styleUrl: './categories.scss',
+})
+export class Categories {
+  constructor(categoriesService: CategoriesService) {
+
+    categoriesService.get().subscribe(result => {
+      this.categories.set(result);
+    })
+
+  };
+
+  categories = signal<CategoryResponse[] | null>(null);
+
+
+
+}

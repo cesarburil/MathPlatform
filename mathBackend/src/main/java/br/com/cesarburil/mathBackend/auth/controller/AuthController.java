@@ -4,6 +4,7 @@ import br.com.cesarburil.mathBackend.auth.dto.UserDto;
 import br.com.cesarburil.mathBackend.auth.service.AuthService;
 import br.com.cesarburil.mathBackend.auth.service.JwtService;
 import br.com.cesarburil.mathBackend.auth.service.UserService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

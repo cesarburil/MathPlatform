@@ -12,7 +12,11 @@ export function authInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn) 
 
   return next(newReq).pipe(
     catchError((error) => {
-      loginService.logout();
+
+      if (error.status === 401) {
+
+        loginService.logout();
+      }
       return throwError(() => error);
     }
     ))

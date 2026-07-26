@@ -1,0 +1,25 @@
+<p>payment works!</p>
+
+<form [formGroup]="paymentForm">
+  <section>
+    <label>Holder</label>
+    <input formControlName="holder">
+  </section>
+  <section>
+    <label>Number</label>
+    <input formControlName="number">
+  </section>
+  <section>
+    <label>Exp Month</label>
+    <input formControlName="expMonth">
+  </section>
+  <section>
+    <label>Exp Year</label>
+    <input formControlName="expYear">
+  </section>
+  <section>
+    <label>Security Code</label>
+    <input formControlName="securityCode">
+  </section>
+  <button [disabled]="!paymentForm.valid" (click)="pay()">Pagar</button>
+</form>
