@@ -2,6 +2,7 @@ package br.com.cesarburil.mathBackend.auth.service;
 
 import br.com.cesarburil.mathBackend.auth.dto.UserDto;
 import br.com.cesarburil.mathBackend.auth.model.User;
+import br.com.cesarburil.mathBackend.auth.model.UserRole;
 import br.com.cesarburil.mathBackend.auth.repository.UserRepository;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -35,6 +36,7 @@ public class AuthService {
         User aNewUser = User
                 .builder()
                 .username(userDto.getUsername())
+                .role(UserRole.USER)
                 .build();
 
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(12);

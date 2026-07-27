@@ -1,5 +1,6 @@
 package br.com.cesarburil.mathBackend.auth.service;
 
+import br.com.cesarburil.mathBackend.auth.model.User;
 import br.com.cesarburil.mathBackend.auth.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,5 +19,13 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByUsername(username);
+    }
+
+    public User findByUsername(String username) {
+        return (User) userRepository.findByUsername(username);
+    }
+
+    public void updateUser(User user) {
+        userRepository.save(user);
     }
 }

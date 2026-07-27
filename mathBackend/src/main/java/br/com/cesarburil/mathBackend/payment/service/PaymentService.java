@@ -1,13 +1,18 @@
 package br.com.cesarburil.mathBackend.payment.service;
 
+import br.com.cesarburil.mathBackend.auth.service.UserService;
+import lombok.RequiredArgsConstructor;
 import okhttp3.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
+@RequiredArgsConstructor
 @Service
 public class PaymentService {
+
+    private final UserService userService;
 
     @Value("${pagbank.token}")
     private String pagbankToken;

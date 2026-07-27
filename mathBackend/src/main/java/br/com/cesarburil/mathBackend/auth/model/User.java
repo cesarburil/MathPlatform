@@ -7,9 +7,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -24,11 +22,23 @@ public class User implements UserDetails {
     private Long id;
     private String username;
     private String password;
-
+    private UserRole role;
+    @Embedded
+    private Profile profile;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+
+        if (this.role == UserRole.ADMIN) {
+            return List.of(new SimpleGrantedAuthority("ROLE_USER"), new SimpleGrantedAuthority("ROLE_PREMIUM"), new SimpleGrantedAuthority("ROLE_ADMIN"));
+        } else if (this.role == UserRole.PREMIUM) {
+            return List.of(new SimpleGrantedAuthority("ROLE_USER"), new SimpleGrantedAuthority("ROLE_PREMIUM"));
+        } else if (this.role == UserRole.USER) {
+            return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        } else {
+            return List.of();
+        }
+
     }
 
     @Override
