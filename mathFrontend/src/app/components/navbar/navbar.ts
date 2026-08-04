@@ -1,19 +1,19 @@
 import { Component } from '@angular/core';
 import { LoginService } from '../../services/login.service';
-import { RouterLink } from "@angular/router";
+import { NavbarItem } from "./navbar-item/navbar-item";
 
 @Component({
-  selector: 'app-home',
-  imports: [RouterLink],
-  templateUrl: './home.html',
-  styleUrl: './home.scss',
+  selector: 'app-navbar',
+  imports: [NavbarItem],
+  templateUrl: './navbar.html',
+  styleUrl: './navbar.scss',
 })
-export class Home {
-
+export class Navbar {
   constructor(private loginService: LoginService) { };
+
+
 
   logout(): void {
     this.loginService.logout();
   }
-
 }

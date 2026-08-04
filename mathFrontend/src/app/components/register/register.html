@@ -1,13 +1,39 @@
-<p>register works!</p>
+<div class="flex min-h-screen">
+  <div class="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
+    <div class="mx-auto w-full max-w-sm lg:w-96">
+      <div>
+        <img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600" alt="MathPlatform" class="h-10 w-auto" />
+        <h2 class="mt-8 text-2xl font-bold leading-9 tracking-tight text-gray-900">Registre-se</h2>
+      
+      </div>
 
-<form [formGroup]="userForm" (submit)="register()">
-  <section>
-    <label>Username</label>
-    <input formControlName="username">
-  </section>
-  <section>
-    <label>Password</label>
-    <input formControlName="password">
-  </section>
-  <button type="submit">Login</button>
-</form>
+      <div class="mt-10">
+        <form [formGroup]="userForm" (submit)="register()" method="POST" class="space-y-6">
+          <div>
+            <label for="username" class="block text-sm font-medium leading-6 text-gray-900">Nome de usuário</label>
+            <div class="mt-2">
+              <input formControlName="username" id="username" name="username" type="text" autocomplete="username" required class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
+            </div>
+          </div>
+
+          <div>
+            <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Senha</label>
+            <div class="mt-2">
+              <input formControlName="password" id="password" name="password" type="password" autocomplete="current-password" required class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
+            </div>
+          </div>
+
+          
+
+          <div>
+            <button type="submit" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Registrar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="relative hidden w-0 flex-1 lg:block">
+    <img class="absolute inset-0 h-full w-full object-cover" src="https://images.unsplash.com/photo-1505909182942-e2f09aee3e89?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" alt="Office desk background">
+  </div>
+</div>
