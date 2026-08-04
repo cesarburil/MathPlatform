@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, resource, signal } from '@angular/core';
+import { QuestionsService } from '../../services/questions.service';
+import { QuestionResponse } from '../../models/QuestionResponse';
 
 @Component({
   selector: 'app-questions',
@@ -7,5 +9,12 @@ import { Component } from '@angular/core';
   styleUrl: './questions.scss',
 })
 export class Questions {
+  constructor(private questionsService: QuestionsService) {
+    questionsService.getAll().subscribe(result =>
+      this.allQuestions.set(result)
+    )
+  }
+
+  allQuestions = signal<QuestionResponse[] | null>(null);
 
 }
