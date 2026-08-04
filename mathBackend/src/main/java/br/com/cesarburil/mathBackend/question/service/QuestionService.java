@@ -7,11 +7,14 @@ import br.com.cesarburil.mathBackend.question.converter.QuestionConverter;
 import br.com.cesarburil.mathBackend.question.dto.AlternativeRequest;
 import br.com.cesarburil.mathBackend.question.dto.QuestionRequest;
 import br.com.cesarburil.mathBackend.question.dto.QuestionResponse;
+import br.com.cesarburil.mathBackend.question.dto.VerifiedQuestionRequest;
+import br.com.cesarburil.mathBackend.question.model.Alternative;
 import br.com.cesarburil.mathBackend.question.model.Difficulty;
 import br.com.cesarburil.mathBackend.question.model.Question;
 import br.com.cesarburil.mathBackend.question.repository.QuestionRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -80,4 +83,9 @@ public class QuestionService {
     }
 
 
+    public Boolean verify(VerifiedQuestionRequest question) {
+        Question questionFound = repository.findById(question.getQuestionId()).orElseThrow();
+        return questionFound.getAlternatives().stream().filter(Alternative::isCorrect).findFirst().get().getId() == question.getAlternativeId();
+
+    }
 }

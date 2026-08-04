@@ -3,6 +3,7 @@ package br.com.cesarburil.mathBackend.question.controller;
 import br.com.cesarburil.mathBackend.question.converter.QuestionConverter;
 import br.com.cesarburil.mathBackend.question.dto.QuestionRequest;
 import br.com.cesarburil.mathBackend.question.dto.QuestionResponse;
+import br.com.cesarburil.mathBackend.question.dto.VerifiedQuestionRequest;
 import br.com.cesarburil.mathBackend.question.service.QuestionService;
 import jakarta.validation.constraints.Max;
 import org.springframework.http.HttpStatus;
@@ -49,6 +50,9 @@ public class QuestionController {
         return new ResponseEntity<>(service.deleteQuestion(id), HttpStatus.OK);
     }
 
-
+    @GetMapping("/verify")
+    public ResponseEntity<Boolean> verifyAnswer(@RequestBody VerifiedQuestionRequest question) {
+        return new ResponseEntity<>(service.verify(question), HttpStatus.OK);
+    }
 
 }

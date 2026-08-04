@@ -11,8 +11,6 @@ import { NavbarItem } from "./navbar-item/navbar-item";
 export class Navbar {
   constructor(private loginService: LoginService) { };
 
-
-
   logout(): void {
     this.loginService.logout();
   }
