@@ -43,7 +43,7 @@ export class Payment {
     const encryptedCard = this.encrypt();
 
     this.paymentService.pay(encryptedCard).subscribe({next: result => {
-      console.log(result);
+      console.log(JSON.parse(result)["charges"][0]["status"]);
     }, error: e => {
       console.error(e)
     }});

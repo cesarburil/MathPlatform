@@ -1,12 +1,17 @@
 package br.com.cesarburil.mathBackend.payment.service;
 
+import br.com.cesarburil.mathBackend.auth.model.User;
+import br.com.cesarburil.mathBackend.auth.model.UserRole;
 import br.com.cesarburil.mathBackend.auth.service.UserService;
+import br.com.cesarburil.mathBackend.payment.model.PagBankWebhook;
 import lombok.RequiredArgsConstructor;
 import okhttp3.*;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.Objects;
 
 @RequiredArgsConstructor
 @Service
@@ -18,12 +23,15 @@ public class PaymentService {
     private String pagbankToken;
 
     public String pay(String encryptedCard) throws IOException {
+
+        String username = Objects.requireNonNull(SecurityContextHolder.getContext().getAuthentication()).getName();
+
         OkHttpClient client = new OkHttpClient();
 
         MediaType mediaType = MediaType.parse("application/json");
         RequestBody body = RequestBody.create(mediaType,
                 "{\n" +
-                        "            \"reference_id\": \"ex-00001\",\n" +
+                        "            \"reference_id\": \""+ username +"\",\n" +
                         "            \"customer\": {\n" +
                         "        \"name\": \"Jose da Silva\",\n" +
                         "                \"email\": \"email@test.com\",\n" +
@@ -58,7 +66,7 @@ public class PaymentService {
                         "        }\n" +
                         "    },\n" +
                         "            \"notification_urls\": [\n" +
-                        "            \"https://meusite.com/notificacoes\"\n" +
+                        "            \"https://ac6b-2804-14d-aea0-8aa0-3869-d29f-3b85-acc9.ngrok-free.app/webhook\"\n" +
                         "            ],\n" +
                         "            \"charges\": [\n" +
                         "    {\n" +
@@ -99,4 +107,14 @@ public class PaymentService {
     }
 
 
+    public void handleWebhook(PagBankWebhook pagBankWebhook) {
+
+        if (!pagBankWebhook.getReference_id().isEmpty() && Objects.equals(pagBankWebhook.getCharges().getFirst().getStatus(), "PAID")) {
+            User user = userService.findByUsername(pagBankWebhook.getReference_id());
+            user.setRole(UserRole.PREMIUM);
+            userService.updateUser(user);
+
+        }
+
+    }
 }
