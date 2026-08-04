@@ -17,7 +17,7 @@
       @for (alt of question.alternatives; track $index) {
       <div class="inline-flex items-center">
         <label class="relative flex items-center cursor-pointer" for="Alt-{{alt.id}}">
-          <input name="framework" type="radio"
+          <input (click)="selectedAltId.set(alt.id); selectedQuestionId.set(question.id)" name="framework" type="radio"
             class="peer h-5 w-5 cursor-pointer appearance-none rounded-full border border-slate-300 checked:border-slate-400 transition-all"
             id="Alt-{{alt.id}}">
           <span
@@ -30,9 +30,12 @@
 
 
     </div>
-    <div class="px-6 pt-4 pb-2">
+    <div class="px-6 pt-4 pb-2 flex justify-between">
       <span
         class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#{{question.difficulty}}</span>
+      <button (click)="verify()" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        Verificar
+      </button>
     </div>
 
   </div>

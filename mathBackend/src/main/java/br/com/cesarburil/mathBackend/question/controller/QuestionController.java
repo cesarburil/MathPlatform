@@ -50,7 +50,7 @@ public class QuestionController {
         return new ResponseEntity<>(service.deleteQuestion(id), HttpStatus.OK);
     }
 
-    @GetMapping("/verify")
+    @PostMapping("/verify")
     public ResponseEntity<Boolean> verifyAnswer(@RequestBody VerifiedQuestionRequest question) {
         return new ResponseEntity<>(service.verify(question), HttpStatus.OK);
     }
