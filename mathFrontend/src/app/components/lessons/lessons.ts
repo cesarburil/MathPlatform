@@ -1,10 +1,11 @@
 import { Component, inject, input, OnDestroy, OnInit, signal } from '@angular/core';
 import { LessonsService } from '../../services/lessons.service';
 import { LessonResponse } from '../../models/LessonResponse';
+import { RouterLink } from "@angular/router";
 
 @Component({
   selector: 'app-lessons',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './lessons.html',
   styleUrl: './lessons.scss',
 })
