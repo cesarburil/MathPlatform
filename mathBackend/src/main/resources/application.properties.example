@@ -8,3 +8,7 @@ spring.datasource.password=${POSTGRES_PASSWORD}
 
 spring.jpa.show-sql=true
 spring.jpa.hibernate.ddl-auto=update
+
+pagbank.token=${PAGBANK_TOKEN}
+
+site.url=${SITE_URL}

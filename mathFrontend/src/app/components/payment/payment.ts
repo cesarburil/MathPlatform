@@ -2,6 +2,8 @@ import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PaymentService } from '../../services/payment.service';
 import { environment } from '../../../environments/environment';
+import { Router } from '@angular/router';
+import { SseService } from '../../services/sse.service';
 declare var PagSeguro: any;
 
 @Component({
@@ -13,7 +15,7 @@ declare var PagSeguro: any;
 
 export class Payment {
 
-  constructor(private paymentService: PaymentService) { };
+  constructor(private paymentService: PaymentService, private router: Router, private sseService: SseService) { };
 
   paymentForm = new FormGroup({
     holder: new FormControl("", [Validators.required]),
@@ -40,10 +42,17 @@ export class Payment {
   }
 
   pay() {
+    this.sseService.connect(`${environment.apiUrl}/sse`).subscribe(data => {
+      console.log("Notificação webhook: ")
+      console.log(data);
+    });
     const encryptedCard = this.encrypt();
 
+  
     this.paymentService.pay(encryptedCard).subscribe({next: result => {
+      console.log("Retorno pagamento: ");
       console.log(JSON.parse(result)["charges"][0]["status"]);
+
     }, error: e => {
       console.error(e)
     }});

@@ -7,6 +7,7 @@ import { Payment } from './components/payment/payment';
 import { Categories } from './components/categories/categories';
 import { About } from './components/about/about';
 import { Questions } from './components/questions/questions';
+import { CheckPayment } from './components/check-payment/check-payment';
 
 export const routes: Routes = [
   { path: "login", component: Login },
@@ -17,6 +18,7 @@ export const routes: Routes = [
       { path: "", pathMatch: "full", redirectTo: "home" },
       { path: "home", component: Home },
       { path: "pay", component: Payment},
+      { path: "checkPayment", component: CheckPayment},
       { path: "categories", component: Categories},
       { path: "questions", component: Questions}
     ]

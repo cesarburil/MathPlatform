@@ -9,9 +9,12 @@ import okhttp3.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @RequiredArgsConstructor
 @Service
@@ -19,8 +22,13 @@ public class PaymentService {
 
     private final UserService userService;
 
+    private final List<SseEmitter> emitters = new CopyOnWriteArrayList<>();
+
     @Value("${pagbank.token}")
     private String pagbankToken;
+
+    @Value("${site.url}")
+    private String siteUrl;
 
     public String pay(String encryptedCard) throws IOException {
 
@@ -66,7 +74,7 @@ public class PaymentService {
                         "        }\n" +
                         "    },\n" +
                         "            \"notification_urls\": [\n" +
-                        "            \"https://ac6b-2804-14d-aea0-8aa0-3869-d29f-3b85-acc9.ngrok-free.app/webhook\"\n" +
+                        "            \""+ siteUrl +"/webhook\"\n" +
                         "            ],\n" +
                         "            \"charges\": [\n" +
                         "    {\n" +
@@ -114,7 +122,25 @@ public class PaymentService {
             user.setRole(UserRole.PREMIUM);
             userService.updateUser(user);
 
+            for (SseEmitter e : emitters) {
+                try {
+                    e.send(pagBankWebhook);
+                } catch (IOException exception) {
+                    e.complete();
+                    emitters.remove(e);
+                }
+            }
+
         }
 
     }
+
+    public void addEmitter(SseEmitter emitter) {
+
+        emitters.add(emitter);
+        emitter.onCompletion(() -> emitters.remove(emitter));
+        emitter.onTimeout(() -> emitters.remove(emitter));
+
+    }
+
 }
