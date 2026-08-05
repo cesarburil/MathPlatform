@@ -29,6 +29,7 @@ public class LessonConverter {
                         .title(lesson.getTitle())
                         .video(lesson.getVideo())
                         .categoryName(lesson.getCategory().getTitle())
+                        .categoryId(lesson.getCategory().getId())
                         .description(lesson.getDescription())
                         .build()
                 ).toList();
@@ -40,6 +41,7 @@ public class LessonConverter {
                 .builder()
                 .id(lesson.getId())
                 .categoryName(lesson.getCategory().getTitle())
+                .categoryId(lesson.getCategory().getId())
                 .description(lesson.getDescription())
                 .video(lesson.getVideo())
                 .title(lesson.getTitle())

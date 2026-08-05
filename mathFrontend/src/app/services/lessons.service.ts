@@ -12,8 +12,12 @@ export class LessonsService {
 
   constructor(private httpClient: HttpClient, private router: Router) { };
 
-  get(catId: number):Observable<LessonResponse[]> {
+  get(catId: number): Observable<LessonResponse[]> {
     return this.httpClient.get<LessonResponse[]>(`${environment.apiUrl}/lessons/c/${catId}`)
+  }
+
+  getLessonById(lessonId: number): Observable<LessonResponse> {
+    return this.httpClient.get<LessonResponse>(`${environment.apiUrl}/lessons/${lessonId}`)
   }
 
 }

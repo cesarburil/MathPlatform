@@ -10,6 +10,7 @@ import lombok.*;
 public class LessonResponse {
     private Long id;
     private String title;
+    private Long categoryId;
     private String categoryName;
     private String description;
     private String video;

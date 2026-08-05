@@ -9,6 +9,7 @@ import { About } from './components/about/about';
 import { Questions } from './components/questions/questions';
 import { CheckPayment } from './components/check-payment/check-payment';
 import { Lessons } from './components/lessons/lessons';
+import { Lesson } from './components/lessons/lesson/lesson';
 
 export const routes: Routes = [
   { path: "login", component: Login },
@@ -22,6 +23,7 @@ export const routes: Routes = [
       { path: "checkPayment", component: CheckPayment},
       { path: "categories", component: Categories},
       { path: "lessons/:categoryId", component: Lessons},
+      { path: "watch/:lessonId", component: Lesson},
       { path: "questions", component: Questions}
     ]
   }
