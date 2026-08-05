@@ -8,6 +8,7 @@ import { Categories } from './components/categories/categories';
 import { About } from './components/about/about';
 import { Questions } from './components/questions/questions';
 import { CheckPayment } from './components/check-payment/check-payment';
+import { Lessons } from './components/lessons/lessons';
 
 export const routes: Routes = [
   { path: "login", component: Login },
@@ -20,6 +21,7 @@ export const routes: Routes = [
       { path: "pay", component: Payment},
       { path: "checkPayment", component: CheckPayment},
       { path: "categories", component: Categories},
+      { path: "lessons/:categoryId", component: Lessons},
       { path: "questions", component: Questions}
     ]
   }

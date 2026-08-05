@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject, input, OnDestroy, OnInit, signal } from '@angular/core';
+import { LessonsService } from '../../services/lessons.service';
+import { LessonResponse } from '../../models/LessonResponse';
 
 @Component({
   selector: 'app-lessons',
@@ -6,6 +8,21 @@ import { Component } from '@angular/core';
   templateUrl: './lessons.html',
   styleUrl: './lessons.scss',
 })
-export class Lessons {
+export class Lessons implements OnInit {
+
+  lessonsService = inject(LessonsService);
+
+  categoryId = input.required<number>();
+
+  ngOnInit(): void {
+
+    this.lessonsService.get(this.categoryId()).subscribe(result =>
+      this.lessons.set(result)
+    )
+
+  }
+
+
+  lessons = signal<LessonResponse[] | null>(null);
 
 }
