@@ -1,5 +1,6 @@
 package br.com.cesarburil.mathBackend.comment.model;
 
+import br.com.cesarburil.mathBackend.auth.model.User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,4 +21,7 @@ public class Answer {
     @ManyToOne
     @JoinColumn(name = "comment_id")
     private Comment comment;
+    @ManyToOne
+    @JoinColumn(name = "user_id" )
+    private User user;
 }

@@ -1,5 +1,7 @@
 package br.com.cesarburil.mathBackend.comment.service;
 
+import br.com.cesarburil.mathBackend.auth.model.User;
+import br.com.cesarburil.mathBackend.auth.repository.UserRepository;
 import br.com.cesarburil.mathBackend.comment.converter.CommentConverter;
 import br.com.cesarburil.mathBackend.comment.dto.AnswerResponse;
 import br.com.cesarburil.mathBackend.comment.dto.CommentRequest;
@@ -9,6 +11,8 @@ import br.com.cesarburil.mathBackend.comment.repository.CommentRepository;
 import br.com.cesarburil.mathBackend.lesson.model.Lesson;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,11 +20,14 @@ import java.util.List;
 @Service
 public class CommentService {
 
+    private final UserRepository userRepository;
+
     private CommentConverter commentConverter;
 
     private CommentRepository commentRepository;
 
-    public CommentService(CommentRepository commentRepository, CommentConverter commentConverter) {
+    public CommentService(UserRepository userRepository, CommentRepository commentRepository, CommentConverter commentConverter) {
+        this.userRepository = userRepository;
         this.commentRepository = commentRepository;
         this.commentConverter = commentConverter;
     }
@@ -34,6 +41,7 @@ public class CommentService {
                         .builder()
                         .id(comment.getId())
                         .title(comment.getTitle())
+                        .username(comment.getUser().getUsername())
                         .answers(comment.getAnswers().stream().map(answer ->
                                 AnswerResponse
                                         .builder()
@@ -55,7 +63,10 @@ public class CommentService {
 
     public CommentResponse createComment(CommentRequest request) {
 
-        Comment aNewComment = commentConverter.requestToComment(request);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        User user = (User) userRepository.findByUsername(currentPrincipalName);
+        Comment aNewComment = commentConverter.requestToComment(request, user);
         Comment saved = commentRepository.save(aNewComment);
         return commentConverter.commentToResponse(saved);
 
@@ -63,7 +74,10 @@ public class CommentService {
 
 
     public CommentResponse updateComment(CommentRequest request, Long id) {
-        Comment updated = commentConverter.requestToComment(request, id);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        User user = (User) userRepository.findByUsername(currentPrincipalName);
+        Comment updated = commentConverter.requestToComment(request, id, user);
         Comment saved = commentRepository.save(updated);
         return commentConverter.commentToResponse(saved);
 

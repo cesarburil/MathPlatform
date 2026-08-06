@@ -1,5 +1,6 @@
 package br.com.cesarburil.mathBackend.comment.converter;
 
+import br.com.cesarburil.mathBackend.auth.model.User;
 import br.com.cesarburil.mathBackend.comment.dto.AnswerResponse;
 import br.com.cesarburil.mathBackend.comment.dto.CommentRequest;
 import br.com.cesarburil.mathBackend.comment.dto.CommentResponse;
@@ -17,6 +18,7 @@ public class CommentConverter {
                 .builder()
                 .id(comment.getId())
                 .title(comment.getTitle())
+                .username(comment.getUser().getUsername())
                 .answers(answerListToResponse(comment.getAnswers()))
                 .build();
     }
@@ -26,6 +28,7 @@ public class CommentConverter {
         if (answers != null) {
             return answers.stream().map(answer -> AnswerResponse.builder()
                             .title(answer.getTitle())
+                            .username(answer.getUser().getUsername())
                             .commentId(answer.getComment().getId())
                             .id(answer.getId())
                             .build())
@@ -37,12 +40,17 @@ public class CommentConverter {
 
     }
 
-    public Comment requestToComment(CommentRequest request) {
-        return Comment.builder().title(request.getTitle()).build();
+    public Comment requestToComment(CommentRequest request, User user) {
+        return Comment.builder().user(user).title(request.getTitle()).build();
     }
 
-    public Comment requestToComment(CommentRequest request, Long id) {
-        return Comment.builder().id(id).title(request.getTitle()).build();
+    public Comment requestToComment(CommentRequest request, Long id, User user) {
+        return Comment
+                .builder()
+                .id(id)
+                .user(user)
+                .title(request.getTitle())
+                .build();
     }
 
 }

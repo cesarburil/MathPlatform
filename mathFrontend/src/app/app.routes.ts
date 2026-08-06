@@ -10,6 +10,7 @@ import { Questions } from './components/questions/questions';
 import { CheckPayment } from './components/check-payment/check-payment';
 import { Lessons } from './components/lessons/lessons';
 import { Lesson } from './components/lessons/lesson/lesson';
+import { Comments } from './components/comments/comments';
 
 export const routes: Routes = [
   { path: "login", component: Login },
@@ -24,7 +25,8 @@ export const routes: Routes = [
       { path: "categories", component: Categories},
       { path: "lessons/:categoryId", component: Lessons},
       { path: "watch/:lessonId", component: Lesson},
-      { path: "questions", component: Questions}
+      { path: "questions", component: Questions},
+      { path: "comments", component: Comments},
     ]
   }
 ];

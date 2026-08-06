@@ -11,4 +11,5 @@ public class AnswerResponse {
     private Long id;
     private String title;
     private Long commentId;
+    private String username;
 }

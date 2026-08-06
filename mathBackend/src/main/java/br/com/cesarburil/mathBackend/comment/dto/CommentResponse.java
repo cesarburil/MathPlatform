@@ -12,5 +12,6 @@ import java.util.List;
 public class CommentResponse {
     private Long id;
     private String title;
+    private String username;
     private List<AnswerResponse> answers;
 }
