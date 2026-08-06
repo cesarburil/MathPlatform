@@ -1,14 +1,15 @@
 import { Component, input } from '@angular/core';
 import { CommentResponse } from '../../../models/CommentResponse';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-comment',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './comment.html',
   styleUrl: './comment.scss',
 })
 export class Comment {
 
-  comment = input<CommentResponse>();
+  comment = input<CommentResponse | null>(null);
   
 }

@@ -1,0 +1,6 @@
+<app-comment [comment]="selectedComment()"></app-comment>
+
+
+@for (answer of selectedComment()?.answers; track $index) {
+  <p class="text-gray-700">{{ answer.username || "Anônimo" }}: {{ answer.title }}</p>
+}

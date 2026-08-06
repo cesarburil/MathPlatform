@@ -14,24 +14,42 @@ import java.util.List;
 public class CommentConverter {
 
     public CommentResponse commentToResponse(Comment comment) {
+
+        String username = "";
+
+        if (comment.getUser() != null) {
+            username = comment.getUser().getUsername();
+        }
+
         return CommentResponse
                 .builder()
                 .id(comment.getId())
                 .title(comment.getTitle())
-                .username(comment.getUser().getUsername())
+                .username(username)
                 .answers(answerListToResponse(comment.getAnswers()))
                 .build();
     }
 
     private List<AnswerResponse> answerListToResponse(List<Answer> answers) {
 
+
+
         if (answers != null) {
-            return answers.stream().map(answer -> AnswerResponse.builder()
-                            .title(answer.getTitle())
-                            .username(answer.getUser().getUsername())
-                            .commentId(answer.getComment().getId())
-                            .id(answer.getId())
-                            .build())
+            return answers.stream().map(answer -> {
+
+                        String username = "";
+
+                        if (answer.getUser() != null) {
+                            username = answer.getUser().getUsername();
+                        }
+
+                return AnswerResponse.builder()
+                        .title(answer.getTitle())
+                        .username(username)
+                        .commentId(answer.getComment().getId())
+                        .id(answer.getId())
+                        .build();
+                    })
                     .toList();
         }
 

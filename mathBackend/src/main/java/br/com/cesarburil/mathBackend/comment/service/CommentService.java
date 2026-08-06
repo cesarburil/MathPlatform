@@ -8,7 +8,7 @@ import br.com.cesarburil.mathBackend.comment.dto.CommentRequest;
 import br.com.cesarburil.mathBackend.comment.dto.CommentResponse;
 import br.com.cesarburil.mathBackend.comment.model.Comment;
 import br.com.cesarburil.mathBackend.comment.repository.CommentRepository;
-import br.com.cesarburil.mathBackend.lesson.model.Lesson;
+import jakarta.validation.constraints.Max;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
@@ -36,21 +36,33 @@ public class CommentService {
 
         Page<Comment> comments = commentRepository.findAll(PageRequest.of(pageNum, quantity));
 
-        return comments.stream().map(comment ->
-                CommentResponse
-                        .builder()
-                        .id(comment.getId())
-                        .title(comment.getTitle())
-                        .username(comment.getUser().getUsername())
-                        .answers(comment.getAnswers().stream().map(answer ->
-                                AnswerResponse
-                                        .builder()
-                                        .id(answer.getId())
-                                        .commentId(comment.getId())
-                                        .title(answer.getTitle())
-                                        .build()).toList())
 
-                        .build()).toList();
+
+        return comments.stream().map(comment ->
+                {
+                    String username = "";
+
+                    if (comment.getUser() != null) {
+                        username = comment.getUser().getUsername();
+                    }
+
+                    return CommentResponse
+                            .builder()
+                            .id(comment.getId())
+                            .title(comment.getTitle())
+                            .username(username)
+                            .answers(comment.getAnswers().stream().map(answer ->
+                                    AnswerResponse
+                                            .builder()
+                                            .id(answer.getId())
+                                            .commentId(comment.getId())
+                                            .title(answer.getTitle())
+                                            .build()).toList())
+
+                            .build();
+                }
+
+        ).toList();
 
     }
 
