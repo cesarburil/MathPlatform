@@ -11,12 +11,28 @@ import { CommentsService } from '../../../services/comments.service';
 })
 export class Details implements OnInit {
 
+
+
   selectedComment = signal<CommentResponse | null>(null);
 
   commentsService = inject(CommentsService);
 
   commentId = input<number>(0);
 
+  newAnswerTitle = signal<string>("");
+
+  addAnswer() {
+    this.commentsService.addAnswer({ commentId: this.commentId(), title: this.newAnswerTitle() }).subscribe(result => {
+      if (this.selectedComment()) {
+        this.selectedComment.update(comment => {
+          if (comment) {
+            return { ...comment, answers: [...comment.answers, result] };
+          }
+          return comment;
+        });
+      }
+    });
+  }
   ngOnInit(): void {
     this.commentsService.getCommentById(this.commentId()).subscribe(result => {
       this.selectedComment.set(result);

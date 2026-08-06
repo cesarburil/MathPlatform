@@ -4,11 +4,17 @@ import { Observable } from 'rxjs';
 import { CommentResponse } from '../models/CommentResponse';
 import { environment } from '../../environments/environment';
 import { CommentRequest } from '../models/CommentRequest';
+import { AnswerRequest } from '../models/AnswerRequest';
+import { AnswerResponse } from '../models/AnswerResponse';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CommentsService {
+  addAnswer(answerRequest: AnswerRequest): Observable<AnswerResponse> {
+    return this.httpClient.post<AnswerResponse>(`${environment.apiUrl}/answers/create`, answerRequest
+    );
+  }
   constructor(private httpClient: HttpClient) { };
 
   getAll(): Observable<CommentResponse[]> {
