@@ -8,6 +8,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +33,13 @@ public class AuthService {
 
 
     public String register(UserDto userDto) {
+
+        UserDetails existingUser = userRepository.findByUsername(userDto.getUsername());
+
+        if (existingUser != null) {
+            throw new RuntimeException("Existing user");
+        }
+
 
         User aNewUser = User
                 .builder()
