@@ -1,0 +1,16 @@
+spring.application.name=mathBackend
+
+server.servlet.session.cookie.same-site=strict
+
+spring.datasource.url=${POSTGRES_URL}
+spring.datasource.username=${POSTGRES_USERNAME}
+spring.datasource.password=${POSTGRES_PASSWORD}
+
+spring.jpa.show-sql=true
+spring.jpa.hibernate.ddl-auto=update
+
+pagbank.token=${PAGBANK_TOKEN}
+
+site.url=${SITE_URL}
+
+application.cors.origins=http://localhost:4200,http://127.0.0.1:4200,http://localhost,http://127.0.0.1,http://169.58.144.203
