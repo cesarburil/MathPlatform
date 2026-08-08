@@ -1,0 +1,66 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: postgres
+
+    environment:
+      POSTGRES_USER: ${POSTGRES_USERNAME}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: mathv2
+
+    volumes:
+      - postgres:/var/lib/postgresql/data
+
+    ports:
+      - "5433:5432"
+
+    restart: unless-stopped
+
+    networks:
+      - spring-demo
+
+  mathv2-api:
+    container_name: mathv2-api
+
+    build:
+      context: ./mathBackend
+      dockerfile: ../docker/backend/Dockerfile
+
+    image: mathv2-api:latest
+
+    env_file:
+      - .env
+
+    ports:
+      - "8081:8080"
+
+    depends_on:
+      - postgres
+
+    networks:
+      - spring-demo
+
+  mathv2-frontend:
+    container_name: mathv2-frontend
+
+    build:
+      context: ./mathFrontend
+      dockerfile: ../docker/frontend/Dockerfile
+
+    image: mathv2-frontend:latest
+
+    ports:
+      - "4200:80"
+
+    depends_on:
+      - mathv2-api
+
+    networks:
+      - spring-demo
+
+networks:
+  spring-demo:
+    driver: bridge
+
+volumes:
+  postgres:

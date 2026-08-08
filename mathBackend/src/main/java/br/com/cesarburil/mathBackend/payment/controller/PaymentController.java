@@ -10,7 +10,6 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 import java.io.IOException;
 
 @RestController
-@CrossOrigin(origins = "*")
 @RequiredArgsConstructor
 public class PaymentController {
 

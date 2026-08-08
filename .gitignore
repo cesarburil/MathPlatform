@@ -40,3 +40,5 @@ mathFrontend/node_modules/
 mathFrontend/dist/
 mathFrontend/.env
 mathFrontend/.production.env
+
+.env
