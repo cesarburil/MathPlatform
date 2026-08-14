@@ -13,6 +13,9 @@ import { Lesson } from './components/lessons/lesson/lesson';
 import { Comments } from './components/comments/comments';
 import { Details } from './components/comments/details/details';
 import { Admin } from './components/admin/admin';
+import { LessonManager } from './components/lessons/lesson-manager/lesson-manager';
+import { CategoryManager } from './components/categories/category-manager/category-manager';
+import { QuestionManager } from './components/questions/question-manager/question-manager';
 
 export const routes: Routes = [
   { path: "login", component: Login },
@@ -30,7 +33,10 @@ export const routes: Routes = [
       { path: "questions", component: Questions},
       { path: "comments", component: Comments},
       { path: "comments/:commentId", component: Details},
-      { path: "admin/", component: Admin }
+      { path: "admin", component: Admin },
+      { path: "admin/categories", component: CategoryManager},
+      { path: "admin/questions", component: QuestionManager},
+      { path: "admin/lessons", component: LessonManager},
     ]
   }
 ];

@@ -7,6 +7,5 @@ import { Component } from '@angular/core';
   styleUrl: './manage.scss',
 })
 export class Manage {
-  
 
 }

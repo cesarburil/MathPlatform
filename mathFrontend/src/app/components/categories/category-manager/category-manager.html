@@ -1,0 +1,38 @@
+<!-- Personalizar botao com Tailwind CSS para ficar bonito -->
+<button class="bg-blue-500 text-white p-2 rounded-md mb-2" (click)="openForm(null)">{{
+    selectedCategory() ? 'Atualizar' : 'Nova Categoria' }}</button>
+@if (showForm()) {
+<form class="form flex flex-col gap-2">
+    <input class="border border-gray-300 p-2 rounded-md" (input)="categoryName.set($event.target.value)" type="text"
+        [value]="categoryName()" />
+
+    <div class="actions flex gap-2 mb-2">
+        <button class="bg-blue-500 text-white p-2 rounded-md" (click)="selectedCategory() ? update() : create()">{{
+            selectedCategory() ? 'Atualizar' : 'Adicionar' }}</button>
+        @if (selectedCategory()) {
+        <button class="bg-red-500 text-white p-2 rounded-md" (click)="delete()">Excluir</button>
+        }
+        <button class="bg-gray-500 text-white p-2 rounded-md" (click)="closeForm()">Fechar</button>
+    </div>
+</form>
+}
+
+<table class="table-auto">
+    <thead class="bg-gray-200">
+        <tr>
+            <th class="px-4 py-2">ID</th>
+            <th class="px-4 py-2">Título</th>
+            <th class="px-4 py-2">Ações</th>
+        </tr>
+    </thead>
+    @for (category of categories(); track category.id) {
+    <tr class="hover:bg-gray-100">
+        <td class="px-4 py-2">{{ category.id }}</td>
+        <td class="px-4 py-2">{{ category.title }}</td>
+        <td class="px-4 py-2">
+            <button class="bg-blue-500 text-white p-2 rounded-md"
+                (click)="openForm(category); categoryName.set(category.title); categoryId.set(category.id)">Editar</button>
+        </td>
+    </tr>
+    }
+</table>

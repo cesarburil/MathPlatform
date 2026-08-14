@@ -15,7 +15,7 @@ export class CategoriesService {
 
 
   get():Observable<CategoryResponse[]>{
-    return this.httpClient.get<CategoryResponse[]>(`${environment.apiUrl}/categories/`);
+    return this.httpClient.get<CategoryResponse[]>(`${environment.apiUrl}/categories/?quantity=15`);
   }
 
   create(category: CategoryRequest):Observable<CategoryResponse>{
