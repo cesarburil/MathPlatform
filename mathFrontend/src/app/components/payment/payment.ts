@@ -44,7 +44,12 @@ export class Payment {
   pay() {
     this.sseService.connect(`${environment.apiUrl}/sse`).subscribe(data => {
       console.log("Notificação webhook: ")
-      console.log(data);
+      console.log(JSON.parse(data)["charges"][0]["status"]);
+      if (JSON.parse(data)["charges"][0]["status"] === "PAID") {
+        this.router.navigate(['/lessons']);
+      } else {
+        this.router.navigate(['/pay/error']);
+      }
     });
     const encryptedCard = this.encrypt();
 
