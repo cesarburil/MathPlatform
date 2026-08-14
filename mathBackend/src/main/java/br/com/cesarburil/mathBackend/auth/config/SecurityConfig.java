@@ -1,5 +1,6 @@
 package br.com.cesarburil.mathBackend.auth.config;
 
+import br.com.cesarburil.mathBackend.auth.model.UserRole;
 import br.com.cesarburil.mathBackend.auth.service.UserService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -48,6 +49,7 @@ public class SecurityConfig {
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(request ->
                         request.requestMatchers("/login", "/register", "/webhook", "/sse").permitAll()
+                                .requestMatchers("/admin").hasRole("ADMIN")
                                 .anyRequest().authenticated())
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .cors(Customizer.withDefaults())

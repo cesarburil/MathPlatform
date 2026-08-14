@@ -1,5 +1,6 @@
 package br.com.cesarburil.mathBackend.auth.model;
 
+import br.com.cesarburil.mathBackend.profile.model.Profile;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;

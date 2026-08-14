@@ -1,4 +1,4 @@
-package br.com.cesarburil.mathBackend.auth.model;
+package br.com.cesarburil.mathBackend.profile.model;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -11,4 +11,8 @@ import lombok.*;
 @Builder
 public class Profile {
     private String full_name;
+    private String cpf;
+    private String phone;
+    private String bio;
+    private String instagram;
 }

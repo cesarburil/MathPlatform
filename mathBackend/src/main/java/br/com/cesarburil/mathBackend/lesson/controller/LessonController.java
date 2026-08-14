@@ -7,6 +7,7 @@ import br.com.cesarburil.mathBackend.lesson.service.LessonService;
 import jakarta.validation.constraints.Max;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,16 +40,19 @@ public class LessonController {
         return new ResponseEntity<>(service.getLessonById(lessonId), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/create")
     public ResponseEntity<LessonResponse> createLesson(@RequestBody LessonRequest request) {
         return new ResponseEntity<>(service.createLesson(request), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/update/{id}")
     public ResponseEntity<LessonResponse> updateLesson(@RequestBody LessonRequest request, @PathVariable Long id) {
         return new ResponseEntity<>(service.updateLesson(request, id), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteLesson(@PathVariable Long id) {
         return new ResponseEntity<>(service.deleteLesson(id), HttpStatus.OK);

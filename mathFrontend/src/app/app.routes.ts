@@ -12,6 +12,7 @@ import { Lessons } from './components/lessons/lessons';
 import { Lesson } from './components/lessons/lesson/lesson';
 import { Comments } from './components/comments/comments';
 import { Details } from './components/comments/details/details';
+import { Admin } from './components/admin/admin';
 
 export const routes: Routes = [
   { path: "login", component: Login },
@@ -29,6 +30,7 @@ export const routes: Routes = [
       { path: "questions", component: Questions},
       { path: "comments", component: Comments},
       { path: "comments/:commentId", component: Details},
+      { path: "admin/", component: Admin }
     ]
   }
 ];

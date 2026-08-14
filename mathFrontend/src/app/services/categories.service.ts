@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { CategoryResponse } from '../models/CategoryResponse';
 import { environment } from '../../environments/environment';
+import { CategoryRequest } from '../models/CategoryRequest';
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +16,18 @@ export class CategoriesService {
 
   get():Observable<CategoryResponse[]>{
     return this.httpClient.get<CategoryResponse[]>(`${environment.apiUrl}/categories/`);
+  }
+
+  create(category: CategoryRequest):Observable<CategoryResponse>{
+    return this.httpClient.post<CategoryResponse>(`${environment.apiUrl}/categories/create`, category)
+  }
+
+  update(category: CategoryRequest, id: number):Observable<CategoryResponse>{
+    return this.httpClient.put<CategoryResponse>(`${environment.apiUrl}/categories/update/${id}`, category)
+  }
+
+  delete(id: number):Observable<string>{
+    return this.httpClient.delete<string>(`${environment.apiUrl}/categories/delete/${id}`)
   }
 
 }

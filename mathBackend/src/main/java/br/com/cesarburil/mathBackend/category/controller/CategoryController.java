@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Max;
 import jakarta.websocket.server.PathParam;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,18 +32,21 @@ public class CategoryController {
         return new ResponseEntity<>(responses, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/create")
     public ResponseEntity<CategoryResponse> createCategory(@RequestBody CategoryRequest request) {
         return new ResponseEntity<>(service.createCategory(request), HttpStatus.OK);
 
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/update/{id}")
     public ResponseEntity<CategoryResponse> updateCategory(@RequestBody CategoryRequest request, @PathVariable Long id) {
         return new ResponseEntity<>(service.updateCategory(request, id), HttpStatus.OK);
 
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteCategory(@PathVariable Long id) {
         return new ResponseEntity<>(service.deleteCategory(id), HttpStatus.OK);

@@ -8,6 +8,7 @@ import br.com.cesarburil.mathBackend.question.service.QuestionService;
 import jakarta.validation.constraints.Max;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,17 +34,20 @@ public class QuestionController {
         return new ResponseEntity<>(service.getQuestionById(id), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/create")
     public ResponseEntity<QuestionResponse> createQuestion(@RequestBody QuestionRequest request) {
         return new ResponseEntity<>(service.createQuestion(request), HttpStatus.OK);
     }
 
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/update/{id}")
     public ResponseEntity<QuestionResponse> updateQuestion(@RequestBody QuestionRequest request, @PathVariable Long id) {
         return new ResponseEntity<>(service.updateQuestion(request, id), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteQuestion(@PathVariable Long id) {
         return new ResponseEntity<>(service.deleteQuestion(id), HttpStatus.OK);
