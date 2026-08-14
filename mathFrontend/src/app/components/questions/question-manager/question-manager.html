@@ -1,1 +1,63 @@
-<p>question-manager works!</p>
+<p class="text-blue-500 cursor-pointer border border-gray-300 rounded-md p-2" (click)="openForm(null)">Nova Questão</p>
+@if(showForm()) {
+<form [formGroup]="questionForm">
+    <input formControlName="title" type="text" placeholder="Título da Questão" />
+    <select formControlName="categoryId" placeholder="Category">
+        @for (category of categories(); track category.id) {
+        <option value="{{ category.id }}">{{ category.title }}</option>
+        }
+    </select>
+    <input formControlName="description" type="text" placeholder="Descrição" />
+    <label for="difficulty">Dificuldade</label>
+    <select formControlName="difficulty" placeholder="Difficulty">
+        @for (difficulty of difficulties; track difficulty) {
+        <option value="{{ difficulty }}">{{ difficulty }}</option>
+        }
+    </select>
+    <input formControlName="video" type="text" placeholder="Vídeo" />
+    <div formArrayName="alternatives"></div>
+
+    <div class="flex flex-col gap-2">
+        @for (alternative of alternatives(); track $index) {
+        <input value="{{ alternative.title }}" type="text" (change)="alternative.title = $event.target.value" placeholder="Alternativa" />
+        <input type="checkbox" [checked]="alternative.correct" (change)="alternative.correct = $event.target.checked"
+            placeholder="Correct" />
+        }
+    </div>
+
+    <p class="text-blue-500 cursor-pointer border border-gray-300 rounded-md p-2" (click)="addAlternative()">Adicionar
+        Alternativa</p>
+    @if (questionForm.valid) {
+    <p class="border border-gray-300 rounded-md p-2" (click)="create()">Criar</p>
+    }
+
+    <p class="border border-gray-300 rounded-md p-2" (click)="closeForm()">Fechar</p>
+
+</form>
+
+}
+<table class="table-auto w-full">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Título</th>
+            <th>Categoria</th>
+            <th>Dificuldade</th>
+            <th>Vídeo</th>
+            <th>Alternativas</th>
+        </tr>
+    </thead>
+    <tbody class="text-center">
+        @for (question of questions(); track question.id) {
+        <tr>
+            <td>{{ question.id }}</td>
+            <td>{{ question.title }}</td>
+            <td>{{ question.categoryName }}</td>
+            <td>{{ question.difficulty }}</td>
+            <td>{{ question.video }}</td>
+            <td>{{ question.alternatives.length }}</td>
+            <button class="border border-gray-300 rounded-md p-2" (click)="delete(question.id)">Excluir</button>
+        </tr>
+        }
+    </tbody>
+</table>

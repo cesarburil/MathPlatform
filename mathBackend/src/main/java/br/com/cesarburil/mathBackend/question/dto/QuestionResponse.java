@@ -12,6 +12,7 @@ import java.util.List;
 public class QuestionResponse {
     private Long id;
     private String title;
+    private Long categoryId;
     private String categoryName;
     private String difficulty;
     private String video;
