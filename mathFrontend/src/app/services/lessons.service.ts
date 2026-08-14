@@ -13,6 +13,10 @@ export class LessonsService {
 
   constructor(private httpClient: HttpClient, private router: Router) { };
 
+  getAllLessons(): Observable<LessonResponse[]> {
+    return this.httpClient.get<LessonResponse[]>(`${environment.apiUrl}/lessons/`);
+  }
+
   get(catId: number): Observable<LessonResponse[]> {
     return this.httpClient.get<LessonResponse[]>(`${environment.apiUrl}/lessons/c/${catId}`)
   }
