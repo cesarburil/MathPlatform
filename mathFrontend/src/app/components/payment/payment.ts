@@ -46,7 +46,7 @@ export class Payment {
       console.log("Notificação webhook: ")
       console.log(JSON.parse(data)["charges"][0]["status"]);
       if (JSON.parse(data)["charges"][0]["status"] === "PAID") {
-        this.router.navigate(['/lessons']);
+        this.router.navigate(['/categories']);
       } else {
         this.router.navigate(['/pay/error']);
       }
