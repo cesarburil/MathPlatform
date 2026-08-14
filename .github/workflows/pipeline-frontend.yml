@@ -44,7 +44,7 @@ jobs:
             ${{ secrets.DOCKERHUB_USERNAME }}/math-frontend:${{ steps.extract_version.outputs.PROJECT_VERSION }}
             ${{ secrets.DOCKERHUB_USERNAME }}/math-frontend:latest
           build-args: |
-            PROFILE=dev
+            CONFIGURATION=production
             APP_VERSION=${{ steps.extract_version.outputs.PROJECT_VERSION }}
 
   deploy:
