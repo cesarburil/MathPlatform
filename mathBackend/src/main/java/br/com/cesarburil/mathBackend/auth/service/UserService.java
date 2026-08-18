@@ -2,7 +2,7 @@ package br.com.cesarburil.mathBackend.auth.service;
 
 import br.com.cesarburil.mathBackend.auth.model.User;
 import br.com.cesarburil.mathBackend.auth.repository.UserRepository;
-import br.com.cesarburil.mathBackend.infra.exception.ResourceNotFoundException;
+import br.com.cesarburil.mathBackend.infra.exception.UserNotFoundException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -29,7 +29,7 @@ public class UserService implements UserDetailsService {
     public User findByUsername(String username) {
         User user = (User) userRepository.findByUsername(username);
         if (user == null) {
-            throw ResourceNotFoundException.of("User", username);
+            throw new UserNotFoundException("User not found: " + username);
         }
         return user;
     }

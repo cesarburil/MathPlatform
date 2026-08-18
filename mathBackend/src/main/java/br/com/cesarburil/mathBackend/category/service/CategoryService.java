@@ -5,7 +5,8 @@ import br.com.cesarburil.mathBackend.category.dto.CategoryRequest;
 import br.com.cesarburil.mathBackend.category.dto.CategoryResponse;
 import br.com.cesarburil.mathBackend.category.model.Category;
 import br.com.cesarburil.mathBackend.category.repository.CategoryRepository;
-import br.com.cesarburil.mathBackend.infra.exception.ResourceNotFoundException;
+import br.com.cesarburil.mathBackend.infra.exception.CategoryNotFoundException;
+import br.com.cesarburil.mathBackend.infra.exception.NoCategoriesException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +32,10 @@ public class CategoryService {
                 .title(category.getTitle())
                 .build()).toList();
 
+        if (responses.isEmpty()) {
+            throw new NoCategoriesException("No existing categories");
+        }
+
         return responses;
     }
 
@@ -45,7 +50,7 @@ public class CategoryService {
     public CategoryResponse updateCategory(CategoryRequest request, Long id) {
 
         Category editing = repository.findById(id)
-                .orElseThrow(() -> ResourceNotFoundException.of("Category", id));
+                .orElseThrow(() -> new CategoryNotFoundException("Category not found: " + id));
         editing.setTitle(request.getTitle());
         Category saved = repository.save(editing);
 
@@ -55,7 +60,7 @@ public class CategoryService {
 
     public String deleteCategory (Long id) {
         if (!repository.existsById(id)) {
-            throw ResourceNotFoundException.of("Category", id);
+            throw new CategoryNotFoundException("Category not found: " + id);
         }
         repository.deleteById(id);
         return id.toString();

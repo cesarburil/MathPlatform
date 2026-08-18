@@ -4,7 +4,7 @@ import br.com.cesarburil.mathBackend.auth.model.User;
 import br.com.cesarburil.mathBackend.auth.model.UserRole;
 import br.com.cesarburil.mathBackend.auth.service.UserService;
 import br.com.cesarburil.mathBackend.infra.exception.PaymentProcessingException;
-import br.com.cesarburil.mathBackend.infra.exception.UnauthorizedException;
+import br.com.cesarburil.mathBackend.infra.exception.AuthenticatedUserNotFoundException;
 import br.com.cesarburil.mathBackend.payment.model.PagBankWebhook;
 import okhttp3.*;
 import org.springframework.beans.factory.annotation.Value;
@@ -44,7 +44,7 @@ public class PaymentService {
     public String pay(String encryptedCard) {
         var authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !authentication.isAuthenticated()) {
-            throw new UnauthorizedException("User is not authenticated");
+            throw new AuthenticatedUserNotFoundException("User is not authenticated");
         }
         String username = authentication.getName();
 

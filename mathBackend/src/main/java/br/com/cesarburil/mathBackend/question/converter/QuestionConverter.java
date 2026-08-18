@@ -2,7 +2,7 @@ package br.com.cesarburil.mathBackend.question.converter;
 
 import br.com.cesarburil.mathBackend.category.model.Category;
 import br.com.cesarburil.mathBackend.category.repository.CategoryRepository;
-import br.com.cesarburil.mathBackend.infra.exception.ResourceNotFoundException;
+import br.com.cesarburil.mathBackend.infra.exception.CategoryNotFoundException;
 import br.com.cesarburil.mathBackend.question.dto.AlternativeRequest;
 import br.com.cesarburil.mathBackend.question.dto.QuestionRequest;
 import br.com.cesarburil.mathBackend.question.dto.QuestionResponse;
@@ -30,7 +30,7 @@ public class QuestionConverter {
         //Fazer Alternativas pegarem Questao Tambem
 
         Category category = categoryRepository.findById(request.getCategoryId())
-                .orElseThrow(() -> ResourceNotFoundException.of("Category", request.getCategoryId()));
+                .orElseThrow(() -> new CategoryNotFoundException("Category not found: " + request.getCategoryId()));
 
         Question question = Question
                 .builder()
@@ -50,7 +50,7 @@ public class QuestionConverter {
     public Question requestToQuestion (QuestionRequest request, Long id) {
 
         Category category = categoryRepository.findById(request.getCategoryId())
-                .orElseThrow(() -> ResourceNotFoundException.of("Category", request.getCategoryId()));
+                .orElseThrow(() -> new CategoryNotFoundException("Category not found: " + request.getCategoryId()));
 
         return Question
                 .builder()

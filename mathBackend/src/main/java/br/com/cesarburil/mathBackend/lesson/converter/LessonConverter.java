@@ -2,7 +2,7 @@ package br.com.cesarburil.mathBackend.lesson.converter;
 
 import br.com.cesarburil.mathBackend.category.model.Category;
 import br.com.cesarburil.mathBackend.category.repository.CategoryRepository;
-import br.com.cesarburil.mathBackend.infra.exception.ResourceNotFoundException;
+import br.com.cesarburil.mathBackend.infra.exception.CategoryNotFoundException;
 import br.com.cesarburil.mathBackend.lesson.dto.LessonRequest;
 import br.com.cesarburil.mathBackend.lesson.dto.LessonResponse;
 import br.com.cesarburil.mathBackend.lesson.model.Lesson;
@@ -50,7 +50,7 @@ public class LessonConverter {
 
     public Lesson requestToLesson(LessonRequest request, Long id) {
         Category category = categoryRepository.findById(request.getCategoryId())
-                .orElseThrow(() -> ResourceNotFoundException.of("Category", request.getCategoryId()));
+                .orElseThrow(() -> new CategoryNotFoundException("Category not found: " + request.getCategoryId()));
 
             return Lesson
                     .builder()
@@ -65,7 +65,7 @@ public class LessonConverter {
 
     public Lesson requestToLesson(LessonRequest request) {
         Category category = categoryRepository.findById(request.getCategoryId())
-                .orElseThrow(() -> ResourceNotFoundException.of("Category", request.getCategoryId()));
+                .orElseThrow(() -> new CategoryNotFoundException("Category not found: " + request.getCategoryId()));
 
         return Lesson
                 .builder()

@@ -6,10 +6,9 @@ import br.com.cesarburil.mathBackend.comment.converter.AnswerConverter;
 import br.com.cesarburil.mathBackend.comment.dto.AnswerRequest;
 import br.com.cesarburil.mathBackend.comment.dto.AnswerResponse;
 import br.com.cesarburil.mathBackend.comment.model.Answer;
-import br.com.cesarburil.mathBackend.comment.model.Comment;
 import br.com.cesarburil.mathBackend.comment.repository.AnswerRepository;
-import br.com.cesarburil.mathBackend.infra.exception.ResourceNotFoundException;
-import br.com.cesarburil.mathBackend.infra.exception.UnauthorizedException;
+import br.com.cesarburil.mathBackend.infra.exception.AnswerNotFoundException;
+import br.com.cesarburil.mathBackend.infra.exception.AuthenticatedUserNotFoundException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -34,7 +33,7 @@ public class AnswerService {
         String currentPrincipalName = authentication.getName();
         User user = (User) userRepository.findByUsername(currentPrincipalName);
         if (user == null) {
-            throw new UnauthorizedException("Authenticated user not found");
+            throw new AuthenticatedUserNotFoundException("Authenticated user not found");
         }
         Answer aNewAnswer = converter.requestToAnswer(request, user);
         Answer saved = repository.save(aNewAnswer);
@@ -47,7 +46,7 @@ public class AnswerService {
         String currentPrincipalName = authentication.getName();
         User user = (User) userRepository.findByUsername(currentPrincipalName);
         if (user == null) {
-            throw new UnauthorizedException("Authenticated user not found");
+            throw new AuthenticatedUserNotFoundException("Authenticated user not found");
         }
         Answer updated = converter.requestToAnswer(request, id, user);
         Answer saved = repository.save(updated);
@@ -56,7 +55,7 @@ public class AnswerService {
 
     public String deleteAnswer(Long id) {
         if (!repository.existsById(id)) {
-            throw ResourceNotFoundException.of("Answer", id);
+            throw new AnswerNotFoundException("Answer not found: " + id);
         }
         repository.deleteById(id);
         return id.toString();

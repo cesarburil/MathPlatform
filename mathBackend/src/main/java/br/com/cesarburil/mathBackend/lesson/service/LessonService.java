@@ -1,6 +1,7 @@
 package br.com.cesarburil.mathBackend.lesson.service;
 
-import br.com.cesarburil.mathBackend.infra.exception.ResourceNotFoundException;
+import br.com.cesarburil.mathBackend.infra.exception.LessonNotFoundException;
+import br.com.cesarburil.mathBackend.infra.exception.NoLessonsException;
 import br.com.cesarburil.mathBackend.lesson.converter.LessonConverter;
 import br.com.cesarburil.mathBackend.lesson.dto.LessonRequest;
 import br.com.cesarburil.mathBackend.lesson.dto.LessonResponse;
@@ -28,21 +29,27 @@ public class LessonService {
     public List<LessonResponse> getAllLessons(int pageNum, int quantity) {
 
         Page<Lesson> lessons = lessonRepository.findAll(PageRequest.of(pageNum, quantity));
-        return lessonConverter.lessonListToResponse(lessons.stream().toList());
-
+        List<LessonResponse> responses = lessonConverter.lessonListToResponse(lessons.stream().toList());
+        if (responses.isEmpty()) {
+            throw new NoLessonsException("No existing lessons");
+        }
+        return responses;
     }
 
     public List<LessonResponse> getLessonsByCategoryId(Long id) {
 
         List<Lesson> lessons = lessonRepository.findAllByCategoryId(id);
-        return lessonConverter.lessonListToResponse(lessons);
-
+        List<LessonResponse> responses = lessonConverter.lessonListToResponse(lessons);
+        if (responses.isEmpty()) {
+            throw new NoLessonsException("No existing lessons for category: " + id);
+        }
+        return responses;
     }
 
 
     public LessonResponse getLessonById(Long lessonId) {
         Lesson lesson = lessonRepository.findById(lessonId)
-                .orElseThrow(() -> ResourceNotFoundException.of("Lesson", lessonId));
+                .orElseThrow(() -> new LessonNotFoundException("Lesson not found: " + lessonId));
         return lessonConverter.lessonToResponse(lesson);
     }
 
@@ -64,7 +71,7 @@ public class LessonService {
 
     public String deleteLesson(Long id) {
         if (!lessonRepository.existsById(id)) {
-            throw ResourceNotFoundException.of("Lesson", id);
+            throw new LessonNotFoundException("Lesson not found: " + id);
         }
         lessonRepository.deleteById(id);
         return id.toString();
