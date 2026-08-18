@@ -2,13 +2,13 @@ package br.com.cesarburil.mathBackend.lesson.converter;
 
 import br.com.cesarburil.mathBackend.category.model.Category;
 import br.com.cesarburil.mathBackend.category.repository.CategoryRepository;
+import br.com.cesarburil.mathBackend.infra.exception.ResourceNotFoundException;
 import br.com.cesarburil.mathBackend.lesson.dto.LessonRequest;
 import br.com.cesarburil.mathBackend.lesson.dto.LessonResponse;
 import br.com.cesarburil.mathBackend.lesson.model.Lesson;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Optional;
 
 @Component
 public class LessonConverter {
@@ -49,7 +49,8 @@ public class LessonConverter {
     }
 
     public Lesson requestToLesson(LessonRequest request, Long id) {
-        Category category = categoryRepository.findById(request.getCategoryId()).orElseThrow();
+        Category category = categoryRepository.findById(request.getCategoryId())
+                .orElseThrow(() -> ResourceNotFoundException.of("Category", request.getCategoryId()));
 
             return Lesson
                     .builder()
@@ -63,7 +64,8 @@ public class LessonConverter {
     }
 
     public Lesson requestToLesson(LessonRequest request) {
-        Category category = categoryRepository.findById(request.getCategoryId()).orElseThrow();
+        Category category = categoryRepository.findById(request.getCategoryId())
+                .orElseThrow(() -> ResourceNotFoundException.of("Category", request.getCategoryId()));
 
         return Lesson
                 .builder()

@@ -8,6 +8,8 @@ import br.com.cesarburil.mathBackend.comment.dto.AnswerResponse;
 import br.com.cesarburil.mathBackend.comment.model.Answer;
 import br.com.cesarburil.mathBackend.comment.model.Comment;
 import br.com.cesarburil.mathBackend.comment.repository.AnswerRepository;
+import br.com.cesarburil.mathBackend.infra.exception.ResourceNotFoundException;
+import br.com.cesarburil.mathBackend.infra.exception.UnauthorizedException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -31,6 +33,9 @@ public class AnswerService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         User user = (User) userRepository.findByUsername(currentPrincipalName);
+        if (user == null) {
+            throw new UnauthorizedException("Authenticated user not found");
+        }
         Answer aNewAnswer = converter.requestToAnswer(request, user);
         Answer saved = repository.save(aNewAnswer);
         return converter.answerToResponse(saved);
@@ -41,12 +46,18 @@ public class AnswerService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         User user = (User) userRepository.findByUsername(currentPrincipalName);
+        if (user == null) {
+            throw new UnauthorizedException("Authenticated user not found");
+        }
         Answer updated = converter.requestToAnswer(request, id, user);
         Answer saved = repository.save(updated);
         return converter.answerToResponse(saved);
     }
 
     public String deleteAnswer(Long id) {
+        if (!repository.existsById(id)) {
+            throw ResourceNotFoundException.of("Answer", id);
+        }
         repository.deleteById(id);
         return id.toString();
     }

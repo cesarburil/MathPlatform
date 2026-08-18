@@ -3,11 +3,11 @@ package br.com.cesarburil.mathBackend.auth.controller;
 import br.com.cesarburil.mathBackend.auth.dto.UserDto;
 import br.com.cesarburil.mathBackend.auth.service.AuthService;
 import br.com.cesarburil.mathBackend.auth.service.JwtService;
-import br.com.cesarburil.mathBackend.auth.service.UserService;
-import org.springframework.beans.factory.annotation.Value;
+import br.com.cesarburil.mathBackend.infra.exception.UnauthorizedException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import br.com.cesarburil.mathBackend.infra.exception.UnauthorizedException;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -34,7 +34,7 @@ public class AuthController {
             return jwtService.generateToken(userDto.getUsername());
         }
 
-        throw new RuntimeException("Not authenticated");
+        throw new UnauthorizedException("Invalid username or password");
 
     }
 

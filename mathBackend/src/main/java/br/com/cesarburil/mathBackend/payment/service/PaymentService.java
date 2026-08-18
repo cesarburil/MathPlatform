@@ -3,6 +3,8 @@ package br.com.cesarburil.mathBackend.payment.service;
 import br.com.cesarburil.mathBackend.auth.model.User;
 import br.com.cesarburil.mathBackend.auth.model.UserRole;
 import br.com.cesarburil.mathBackend.auth.service.UserService;
+import br.com.cesarburil.mathBackend.infra.exception.PaymentProcessingException;
+import br.com.cesarburil.mathBackend.infra.exception.UnauthorizedException;
 import br.com.cesarburil.mathBackend.payment.model.PagBankWebhook;
 import okhttp3.*;
 import org.springframework.beans.factory.annotation.Value;
@@ -39,9 +41,12 @@ public class PaymentService {
         return value;
     }
 
-    public String pay(String encryptedCard) throws IOException {
-
-        String username = Objects.requireNonNull(SecurityContextHolder.getContext().getAuthentication()).getName();
+    public String pay(String encryptedCard) {
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new UnauthorizedException("User is not authenticated");
+        }
+        String username = authentication.getName();
 
         OkHttpClient client = new OkHttpClient();
 
@@ -118,9 +123,19 @@ public class PaymentService {
                 .addHeader("content-type", "application/json")
                 .build();
 
-        Response response = client.newCall(request).execute();
-
-        return response.body().string();
+        try {
+            Response response = client.newCall(request).execute();
+            ResponseBody responseBody = response.body();
+            if (responseBody == null) {
+                throw new PaymentProcessingException("Empty response from payment provider");
+            }
+            if (!response.isSuccessful()) {
+                throw new PaymentProcessingException("Payment provider returned HTTP " + response.code());
+            }
+            return responseBody.string();
+        } catch (IOException e) {
+            throw new PaymentProcessingException("Failed to contact payment provider", e);
+        }
     }
 
 

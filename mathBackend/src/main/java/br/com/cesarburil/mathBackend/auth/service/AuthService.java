@@ -4,6 +4,7 @@ import br.com.cesarburil.mathBackend.auth.dto.UserDto;
 import br.com.cesarburil.mathBackend.auth.model.User;
 import br.com.cesarburil.mathBackend.auth.model.UserRole;
 import br.com.cesarburil.mathBackend.auth.repository.UserRepository;
+import br.com.cesarburil.mathBackend.infra.exception.ResourceAlreadyExistsException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
@@ -37,7 +38,7 @@ public class AuthService {
         UserDetails existingUser = userRepository.findByUsername(userDto.getUsername());
 
         if (existingUser != null) {
-            throw new RuntimeException("Existing user");
+            throw new ResourceAlreadyExistsException("User already exists: " + userDto.getUsername());
         }
 
 

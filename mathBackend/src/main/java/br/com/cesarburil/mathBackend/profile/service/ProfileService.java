@@ -2,6 +2,8 @@ package br.com.cesarburil.mathBackend.profile.service;
 
 import br.com.cesarburil.mathBackend.auth.model.User;
 import br.com.cesarburil.mathBackend.auth.repository.UserRepository;
+import br.com.cesarburil.mathBackend.infra.exception.ResourceNotFoundException;
+import br.com.cesarburil.mathBackend.infra.exception.UnauthorizedException;
 import br.com.cesarburil.mathBackend.profile.model.Profile;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -17,14 +19,16 @@ public class ProfileService {
     public Profile getProfile() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if (authentication != null) {
-            String currentPrincipalName = authentication.getName();
-            User user = (User) userRepository.findByUsername(currentPrincipalName);
-            return user.getProfile();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            throw new UnauthorizedException("User is not authenticated");
         }
 
-        return new Profile();
-
+        String currentPrincipalName = authentication.getName();
+        User user = (User) userRepository.findByUsername(currentPrincipalName);
+        if (user == null) {
+            throw ResourceNotFoundException.of("User", currentPrincipalName);
+        }
+        return user.getProfile();
     }
 
 }

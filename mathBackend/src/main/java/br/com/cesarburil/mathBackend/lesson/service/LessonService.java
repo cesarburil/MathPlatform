@@ -1,8 +1,6 @@
 package br.com.cesarburil.mathBackend.lesson.service;
 
-import br.com.cesarburil.mathBackend.category.model.Category;
-import br.com.cesarburil.mathBackend.category.repository.CategoryRepository;
-import br.com.cesarburil.mathBackend.comment.repository.CommentRepository;
+import br.com.cesarburil.mathBackend.infra.exception.ResourceNotFoundException;
 import br.com.cesarburil.mathBackend.lesson.converter.LessonConverter;
 import br.com.cesarburil.mathBackend.lesson.dto.LessonRequest;
 import br.com.cesarburil.mathBackend.lesson.dto.LessonResponse;
@@ -13,7 +11,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class LessonService {
@@ -23,7 +20,7 @@ public class LessonService {
 
     private final LessonConverter lessonConverter;
 
-    public LessonService(LessonRepository lessonRepository, LessonConverter lessonConverter, CategoryRepository categoryRepository) {
+    public LessonService(LessonRepository lessonRepository, LessonConverter lessonConverter) {
         this.lessonRepository = lessonRepository;
         this.lessonConverter = lessonConverter;
     }
@@ -44,9 +41,9 @@ public class LessonService {
 
 
     public LessonResponse getLessonById(Long lessonId) {
-        Optional<Lesson> lesson = lessonRepository.findById(lessonId);
-        return lesson.map(lessonConverter::lessonToResponse).orElse(LessonResponse.builder().build());
-
+        Lesson lesson = lessonRepository.findById(lessonId)
+                .orElseThrow(() -> ResourceNotFoundException.of("Lesson", lessonId));
+        return lessonConverter.lessonToResponse(lesson);
     }
 
     public LessonResponse createLesson(LessonRequest request) {
@@ -66,8 +63,10 @@ public class LessonService {
     }
 
     public String deleteLesson(Long id) {
+        if (!lessonRepository.existsById(id)) {
+            throw ResourceNotFoundException.of("Lesson", id);
+        }
         lessonRepository.deleteById(id);
         return id.toString();
-
     }
 }

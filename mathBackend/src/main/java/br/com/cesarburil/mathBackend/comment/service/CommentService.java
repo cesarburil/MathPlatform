@@ -8,7 +8,8 @@ import br.com.cesarburil.mathBackend.comment.dto.CommentRequest;
 import br.com.cesarburil.mathBackend.comment.dto.CommentResponse;
 import br.com.cesarburil.mathBackend.comment.model.Comment;
 import br.com.cesarburil.mathBackend.comment.repository.CommentRepository;
-import jakarta.validation.constraints.Max;
+import br.com.cesarburil.mathBackend.infra.exception.ResourceNotFoundException;
+import br.com.cesarburil.mathBackend.infra.exception.UnauthorizedException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
@@ -68,7 +69,8 @@ public class CommentService {
 
     public CommentResponse getCommentById(Long id) {
 
-        Comment comment = commentRepository.findById(id).orElseThrow();
+        Comment comment = commentRepository.findById(id)
+                .orElseThrow(() -> ResourceNotFoundException.of("Comment", id));
         return commentConverter.commentToResponse(comment);
 
     }
@@ -78,6 +80,9 @@ public class CommentService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         User user = (User) userRepository.findByUsername(currentPrincipalName);
+        if (user == null) {
+            throw new UnauthorizedException("Authenticated user not found");
+        }
         Comment aNewComment = commentConverter.requestToComment(request, user);
         Comment saved = commentRepository.save(aNewComment);
         return commentConverter.commentToResponse(saved);
@@ -89,6 +94,9 @@ public class CommentService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
         User user = (User) userRepository.findByUsername(currentPrincipalName);
+        if (user == null) {
+            throw new UnauthorizedException("Authenticated user not found");
+        }
         Comment updated = commentConverter.requestToComment(request, id, user);
         Comment saved = commentRepository.save(updated);
         return commentConverter.commentToResponse(saved);
@@ -96,6 +104,9 @@ public class CommentService {
     }
 
     public String deleteComment(Long id) {
+        if (!commentRepository.existsById(id)) {
+            throw ResourceNotFoundException.of("Comment", id);
+        }
         commentRepository.deleteById(id);
         return id.toString();
     }

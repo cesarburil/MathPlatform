@@ -6,6 +6,7 @@ import br.com.cesarburil.mathBackend.comment.dto.AnswerResponse;
 import br.com.cesarburil.mathBackend.comment.model.Answer;
 import br.com.cesarburil.mathBackend.comment.model.Comment;
 import br.com.cesarburil.mathBackend.comment.repository.CommentRepository;
+import br.com.cesarburil.mathBackend.infra.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -19,7 +20,8 @@ public class AnswerConverter {
 
     public Answer requestToAnswer(AnswerRequest request, User user) {
 
-        Comment comment = commentRepository.findById(request.getCommentId()).orElseThrow();
+        Comment comment = commentRepository.findById(request.getCommentId())
+                .orElseThrow(() -> ResourceNotFoundException.of("Comment", request.getCommentId()));
 
         return Answer
                 .builder()
@@ -31,7 +33,8 @@ public class AnswerConverter {
 
     public Answer requestToAnswer(AnswerRequest request, Long answerId, User user) {
 
-        Comment comment = commentRepository.findById(request.getCommentId()).orElseThrow();
+        Comment comment = commentRepository.findById(request.getCommentId())
+                .orElseThrow(() -> ResourceNotFoundException.of("Comment", request.getCommentId()));
 
         return Answer
                 .builder()

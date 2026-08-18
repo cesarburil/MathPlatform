@@ -7,8 +7,6 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
-import java.io.IOException;
-
 @RestController
 @RequiredArgsConstructor
 public class PaymentController {
@@ -16,7 +14,7 @@ public class PaymentController {
     private final PaymentService paymentService;
 
     @PostMapping("/pay")
-    public String pay(@RequestBody String encryptedCard) throws IOException {
+    public String pay(@RequestBody String encryptedCard) {
         return paymentService.pay(encryptedCard);
     }
 
