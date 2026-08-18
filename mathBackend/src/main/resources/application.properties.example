@@ -13,4 +13,4 @@ pagbank.token=${PAGBANK_TOKEN}
 
 site.url=${SITE_URL}
 
-application.cors.origins=http://localhost:4200,http://127.0.0.1:4200,http://localhost,http://127.0.0.1,http://169.58.144.203
+application.cors.origins=http://localhost:4200,http://127.0.0.1:4200,http://localhost,http://127.0.0.1,http://169.58.144.203,https://math.cesarburil.com.br,http://math.cesarburil.com.br

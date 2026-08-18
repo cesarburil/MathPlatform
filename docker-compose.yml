@@ -44,7 +44,8 @@ services:
     image: ${DOCKERHUB_USERNAME}/math-frontend:latest
 
     ports:
-      - "80:80"
+      # Só localhost: o Nginx do host (HTTPS) encaminha para cá.
+      - "127.0.0.1:8080:80"
 
     depends_on:
       - mathv2-api
