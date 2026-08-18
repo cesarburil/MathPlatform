@@ -4,10 +4,11 @@ import br.com.cesarburil.mathBackend.auth.dto.UserDto;
 import br.com.cesarburil.mathBackend.auth.service.AuthService;
 import br.com.cesarburil.mathBackend.auth.service.JwtService;
 import br.com.cesarburil.mathBackend.infra.exception.UnauthorizedException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import br.com.cesarburil.mathBackend.infra.exception.UnauthorizedException;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -26,12 +27,12 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody UserDto userDto) {
+    public ResponseEntity<String> login(@RequestBody UserDto userDto) {
 
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(userDto.getUsername(), userDto.getPassword()));
 
         if (authentication.isAuthenticated()) {
-            return jwtService.generateToken(userDto.getUsername());
+            return new ResponseEntity<>(jwtService.generateToken(userDto.getUsername()), HttpStatus.OK);
         }
 
         throw new UnauthorizedException("Invalid username or password");
@@ -39,11 +40,8 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public String register(@RequestBody UserDto userDto) {
-        System.out.println(userDto.getUsername());
-        return authService.register(userDto);
+    public ResponseEntity<String> register(@RequestBody UserDto userDto) {
+        return new ResponseEntity<>(authService.register(userDto), HttpStatus.CREATED);
     }
-
-
 
 }

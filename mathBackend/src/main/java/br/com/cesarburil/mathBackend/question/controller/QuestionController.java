@@ -37,7 +37,7 @@ public class QuestionController {
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/create")
     public ResponseEntity<QuestionResponse> createQuestion(@RequestBody QuestionRequest request) {
-        return new ResponseEntity<>(service.createQuestion(request), HttpStatus.OK);
+        return new ResponseEntity<>(service.createQuestion(request), HttpStatus.CREATED);
     }
 
 
@@ -50,7 +50,7 @@ public class QuestionController {
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteQuestion(@PathVariable Long id) {
-        return new ResponseEntity<>(service.deleteQuestion(id), HttpStatus.OK);
+        return new ResponseEntity<>(service.deleteQuestion(id), HttpStatus.NO_CONTENT);
     }
 
     @PostMapping("/verify")

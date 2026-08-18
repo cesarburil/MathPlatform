@@ -33,7 +33,7 @@ public class CommentController {
 
     @PostMapping("/create")
     public ResponseEntity<CommentResponse> createComment(@RequestBody CommentRequest request) {
-        return new ResponseEntity<>(service.createComment(request), HttpStatus.OK);
+        return new ResponseEntity<>(service.createComment(request), HttpStatus.CREATED);
     }
 
     @PutMapping("/update/{id}")
@@ -43,7 +43,7 @@ public class CommentController {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteComment(@PathVariable Long id) {
-        return new ResponseEntity<>(service.deleteComment(id), HttpStatus.OK);
+        return new ResponseEntity<>(service.deleteComment(id), HttpStatus.NO_CONTENT);
     }
 
 }

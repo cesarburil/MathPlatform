@@ -22,7 +22,7 @@ public class AnswerController {
 
     @PostMapping("/create")
     public ResponseEntity<AnswerResponse> createAnswer(@RequestBody AnswerRequest request) {
-        return new ResponseEntity<>(service.createAnswer(request), HttpStatus.OK);
+        return new ResponseEntity<>(service.createAnswer(request), HttpStatus.CREATED);
     }
 
     @PutMapping("/update/{id}")
@@ -32,7 +32,7 @@ public class AnswerController {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteAnswer(@PathVariable Long id) {
-        return new ResponseEntity<>(service.deleteAnswer(id), HttpStatus.OK);
+        return new ResponseEntity<>(service.deleteAnswer(id), HttpStatus.NO_CONTENT);
     }
 
 }

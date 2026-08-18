@@ -43,7 +43,7 @@ public class LessonController {
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/create")
     public ResponseEntity<LessonResponse> createLesson(@RequestBody LessonRequest request) {
-        return new ResponseEntity<>(service.createLesson(request), HttpStatus.OK);
+        return new ResponseEntity<>(service.createLesson(request), HttpStatus.CREATED);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -55,7 +55,7 @@ public class LessonController {
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteLesson(@PathVariable Long id) {
-        return new ResponseEntity<>(service.deleteLesson(id), HttpStatus.OK);
+        return new ResponseEntity<>(service.deleteLesson(id), HttpStatus.NO_CONTENT);
     }
 
 }

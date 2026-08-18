@@ -35,7 +35,7 @@ public class CategoryController {
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/create")
     public ResponseEntity<CategoryResponse> createCategory(@RequestBody CategoryRequest request) {
-        return new ResponseEntity<>(service.createCategory(request), HttpStatus.OK);
+        return new ResponseEntity<>(service.createCategory(request), HttpStatus.CREATED);
 
     }
 
@@ -49,7 +49,7 @@ public class CategoryController {
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteCategory(@PathVariable Long id) {
-        return new ResponseEntity<>(service.deleteCategory(id), HttpStatus.OK);
+        return new ResponseEntity<>(service.deleteCategory(id), HttpStatus.NO_CONTENT);
     }
 
 

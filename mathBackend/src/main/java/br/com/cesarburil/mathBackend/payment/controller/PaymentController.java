@@ -3,7 +3,9 @@ package br.com.cesarburil.mathBackend.payment.controller;
 import br.com.cesarburil.mathBackend.payment.model.PagBankWebhook;
 import br.com.cesarburil.mathBackend.payment.service.PaymentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
@@ -14,13 +16,14 @@ public class PaymentController {
     private final PaymentService paymentService;
 
     @PostMapping("/pay")
-    public String pay(@RequestBody String encryptedCard) {
-        return paymentService.pay(encryptedCard);
+    public ResponseEntity<String> pay(@RequestBody String encryptedCard) {
+        return new ResponseEntity<>(paymentService.pay(encryptedCard), HttpStatus.ACCEPTED);
     }
 
     @PostMapping("/webhook")
-    public void webhook(@RequestBody PagBankWebhook pagBankWebhook) {
+    public ResponseEntity<Void> webhook(@RequestBody PagBankWebhook pagBankWebhook) {
         paymentService.handleWebhook(pagBankWebhook);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @GetMapping(path = "/sse", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
@@ -29,6 +32,5 @@ public class PaymentController {
         paymentService.addEmitter(emitter);
         return emitter;
     }
-
 
 }
