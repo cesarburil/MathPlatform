@@ -11,6 +11,7 @@ import br.com.cesarburil.mathBackend.question.repository.QuestionRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +23,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Component
+@Profile("!test")
 public class MathCatalogSeeder implements CommandLineRunner {
 
     private static final String VIDEO = "https://www.youtube.com/watch?v=wt-cMyLvMfc";
@@ -47,10 +49,7 @@ public class MathCatalogSeeder implements CommandLineRunner {
     @Transactional
     public void run(String... args) {
         if (!catalogReady()) {
-            entityManager.createNativeQuery(
-                    "TRUNCATE TABLE alternatives, questions, lessons, categories RESTART IDENTITY CASCADE"
-            ).executeUpdate();
-            entityManager.clear();
+            clearCatalog();
             seedCatalog();
         }
         if (questionRepository.count() == 0) {
@@ -63,6 +62,19 @@ public class MathCatalogSeeder implements CommandLineRunner {
                 && lessonRepository.count() >= 60
                 && categoryRepository.findAll().stream()
                 .anyMatch(category -> "Matemática financeira".equals(category.getTitle()));
+    }
+
+    private void clearCatalog() {
+        if (questionRepository.count() == 0
+                && lessonRepository.count() == 0
+                && categoryRepository.count() == 0) {
+            return;
+        }
+        questionRepository.deleteAll();
+        lessonRepository.deleteAll();
+        categoryRepository.deleteAll();
+        entityManager.flush();
+        entityManager.clear();
     }
 
     private void seedCatalog() {
