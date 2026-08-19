@@ -1,75 +1,91 @@
-<div class="flex flex-col gap-2">
-    <p class="text-blue-500 cursor-pointer border border-gray-300 rounded-md p-2" (click)="openForm(null)">Nova Questão
-    </p>
-    @if(showForm()) {
-    <form [formGroup]="questionForm">
-        <input class="border border-gray-300 rounded-md p-2" formControlName="title" type="text"
-            placeholder="Título da Questão" />
-        <label class="text-gray-700" for="categoryId">Categoria</label>
-        <select class="border border-gray-300 rounded-md p-2" formControlName="categoryId" placeholder="Category">
-            @for (category of categories(); track category.id) {
-            <option value="{{ category.id }}">{{ category.title }}</option>
-            }
-        </select>
-        <input class="border border-gray-300 rounded-md p-2" formControlName="description" type="text"
-            placeholder="Descrição" />
-        <label class="text-gray-700" for="difficulty">Dificuldade</label>
-        <select class="border border-gray-300 rounded-md p-2" formControlName="difficulty" placeholder="Difficulty">
-            @for (difficulty of difficulties; track difficulty) {
-            <option class="border border-gray-300 rounded-md p-2" value="{{ difficulty }}">{{ difficulty }}</option>
-            }
-        </select>
-        <input class="border border-gray-300 rounded-md p-2" formControlName="video" type="text" placeholder="Vídeo" />
-        <div formArrayName="alternatives"></div>
+<section>
+  <div class="mp-actions" style="margin-bottom: 1.5rem;">
+    <a routerLink="/admin" class="mp-btn-ghost">Voltar</a>
+  </div>
+  <p class="mp-kicker">Admin</p>
+  <h1 class="mp-title">Questões</h1>
 
-        <div class="flex flex-col gap-2">
-            @for (alternative of alternatives(); track $index) {
-            <input value="{{ alternative.title }}" type="text" (change)="alternative.title = $event.target.value"
-                placeholder="Alternativa" />
-            <input type="checkbox" [checked]="alternative.correct"
-                (change)="alternative.correct = $event.target.checked" placeholder="Correct" />
-            }
-        </div>
-        <p class="text-blue-500 cursor-pointer border border-gray-300 rounded-md p-2" (click)="addAlternative()">
-            Adicionar
-            Alternativa</p>
-        <div class="flex flex-row gap-2">
+  <div class="mp-actions" style="margin: 1.75rem 0;">
+    <button type="button" class="mp-btn" (click)="openForm(null)">Nova questão</button>
+  </div>
 
-            @if (questionForm.valid) {
-            <p class="text-white bg-blue-500 border border-gray-300 rounded-md p-2 cursor-pointer" (click)="create()">
-                Criar</p>
-            }
+  @if (showForm()) {
+  <form [formGroup]="questionForm" class="mp-form mp-form-wide">
+    <div>
+      <label class="mp-label" for="q-title">Título</label>
+      <input id="q-title" class="mp-input" formControlName="title" type="text" />
+    </div>
+    <div>
+      <label class="mp-label" for="q-category">Categoria</label>
+      <select id="q-category" class="mp-select" formControlName="categoryId">
+        @for (category of categories(); track category.id) {
+        <option value="{{ category.id }}">{{ category.title }}</option>
+        }
+      </select>
+    </div>
+    <div>
+      <label class="mp-label" for="q-description">Descrição</label>
+      <input id="q-description" class="mp-input" formControlName="description" type="text" />
+    </div>
+    <div>
+      <label class="mp-label" for="q-difficulty">Dificuldade</label>
+      <select id="q-difficulty" class="mp-select" formControlName="difficulty">
+        @for (difficulty of difficulties; track difficulty) {
+        <option value="{{ difficulty }}">{{ difficulty }}</option>
+        }
+      </select>
+    </div>
+    <div>
+      <label class="mp-label" for="q-video">Vídeo</label>
+      <input id="q-video" class="mp-input" formControlName="video" type="text" />
+    </div>
 
-            <p class="text-white bg-red-500 border border-gray-300 rounded-md p-2 cursor-pointer" (click)="closeForm()">
-                Fechar</p>
-
-        </div>
-    </form>
-
+    @for (alternative of alternatives(); track $index) {
+    <div class="mp-alt-edit">
+      <input class="mp-input" [value]="alternative.title" type="text"
+        (change)="alternative.title = $any($event.target).value" placeholder="Alternativa" />
+      <label class="mp-alt">
+        <input type="checkbox" [checked]="alternative.correct"
+          (change)="alternative.correct = $any($event.target).checked">
+        <span>correta</span>
+      </label>
+    </div>
     }
-    <table class="w-full border-collapse border border-gray-300 rounded-md">
-        <thead class="bg-gray-100">
-            <tr class="border border-gray-300 rounded-md p-2">
-                <th>ID</th>
-                <th>Título</th>
-                <th>Categoria</th>
-                <th>Dificuldade</th>
-                <th>Vídeo</th>
-                <th>Alternativas</th>
-                <th>Ações</th>
-            </tr>
-        </thead>
-        <tbody class="text-center border border-gray-300 rounded-md p-2">
-            @for (question of questions(); track question.id) {
-            <tr class="border border-gray-300 rounded-md p-2">
-                <td>{{ question.id }}</td>
-                <td>{{ question.title }}</td>
-                <td>{{ question.categoryName }}</td>
-                <td>{{ question.difficulty }}</td>
-                <td>{{ question.video }}</td>
-                <td>{{ question.alternatives.length }}</td>
-                <button class="border border-gray-300 rounded-md p-2" (click)="delete(question.id)">Excluir</button>
-            </tr>
-            }
-        </tbody>
-    </table>
+
+    <div class="mp-actions">
+      <button type="button" class="mp-btn-ghost" (click)="addAlternative()">Adicionar alternativa</button>
+      @if (questionForm.valid) {
+      <button type="button" class="mp-btn" (click)="create()">Criar</button>
+      }
+      <button type="button" class="mp-btn-danger" (click)="closeForm()">Fechar</button>
+    </div>
+  </form>
+  }
+
+  <table class="mp-table" style="margin-top: 2rem;">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Título</th>
+        <th>Categoria</th>
+        <th>Nível</th>
+        <th>Alts</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (question of questions(); track question.id) {
+      <tr>
+        <td>{{ question.id }}</td>
+        <td>{{ question.title }}</td>
+        <td>{{ question.categoryName }}</td>
+        <td>{{ question.difficulty }}</td>
+        <td>{{ question.alternatives.length }}</td>
+        <td>
+          <button type="button" class="mp-btn-danger" (click)="delete(question.id)">Excluir</button>
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
+</section>

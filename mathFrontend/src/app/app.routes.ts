@@ -1,7 +1,7 @@
-import { ActivatedRoute, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 import { Home } from './components/home/home';
 import { Login } from './components/login/login';
-import { authguardGuard } from './authguard-guard';
+import { authguardGuard, payGuard } from './authguard-guard';
 import { Register } from './components/register/register';
 import { Payment } from './components/payment/payment';
 import { Categories } from './components/categories/categories';
@@ -21,22 +21,22 @@ export const routes: Routes = [
   { path: "login", component: Login },
   { path: "register", component: Register },
   { path: "about", component: About },
+  { path: "", pathMatch: "full", redirectTo: "home" },
+  { path: "home", component: Home },
   {
     path: "", canActivate: [authguardGuard], children: [
-      { path: "", pathMatch: "full", redirectTo: "home" },
-      { path: "home", component: Home },
-      { path: "pay", component: Payment},
-      { path: "pay/error", component: PaymentError},
-      { path: "categories", component: Categories},
-      { path: "lessons/:categoryId", component: Lessons},
-      { path: "watch/:lessonId", component: Lesson},
-      { path: "questions", component: Questions},
-      { path: "comments", component: Comments},
-      { path: "comments/:commentId", component: Details},
+      { path: "pay", component: Payment, canActivate: [payGuard] },
+      { path: "pay/error", component: PaymentError },
+      { path: "categories", component: Categories },
+      { path: "lessons/:categoryId", component: Lessons },
+      { path: "watch/:lessonId", component: Lesson },
+      { path: "questions", component: Questions },
+      { path: "comments", component: Comments },
+      { path: "comments/:commentId", component: Details },
       { path: "admin", component: Admin },
-      { path: "admin/categories", component: CategoryManager},
-      { path: "admin/questions", component: QuestionManager},
-      { path: "admin/lessons", component: LessonManager},
+      { path: "admin/categories", component: CategoryManager },
+      { path: "admin/questions", component: QuestionManager },
+      { path: "admin/lessons", component: LessonManager },
     ]
   }
 ];

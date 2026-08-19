@@ -1,9 +1,11 @@
-<div class="bg-white">
+<div class="mp-shell" [class.is-watch]="isWatchPage()">
+  @if (!isWatchPage()) {
   <header class="absolute inset-x-0 top-0 z-50">
-
     <app-navbar></app-navbar>
   </header>
-  <div class="md:p-20 md:p-5 ">
+  }
+  <div class="mp-main" [class.is-auth]="isAuthPage()" [class.is-watch]="isWatchPage()">
     <router-outlet></router-outlet>
   </div>
+  <app-toast></app-toast>
 </div>

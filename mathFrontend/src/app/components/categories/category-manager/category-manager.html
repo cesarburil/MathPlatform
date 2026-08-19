@@ -1,37 +1,51 @@
-<button class="bg-blue-500 text-white p-2 rounded-md mb-2" (click)="openForm(null)">{{
-    selectedCategory() ? 'Atualizar' : 'Nova Categoria' }}</button>
-@if (showForm()) {
-<form class="form flex flex-col gap-2">
-    <input class="border border-gray-300 p-2 rounded-md" (input)="categoryName.set($event.target.value)" type="text"
+<section>
+  <div class="mp-actions" style="margin-bottom: 1.5rem;">
+    <a routerLink="/admin" class="mp-btn-ghost">Voltar</a>
+  </div>
+  <p class="mp-kicker">Admin</p>
+  <h1 class="mp-title">Categorias</h1>
+
+  <div class="mp-actions" style="margin: 1.75rem 0;">
+    <button type="button" class="mp-btn" (click)="openForm(null)">Nova categoria</button>
+  </div>
+
+  @if (showForm()) {
+  <form class="mp-form" (submit)="$event.preventDefault()">
+    <div>
+      <label class="mp-label" for="category-name">Título</label>
+      <input id="category-name" class="mp-input" (input)="categoryName.set($any($event.target).value)" type="text"
         [value]="categoryName()" />
-
-    <div class="actions flex gap-2 mb-2">
-        <button class="bg-blue-500 text-white p-2 rounded-md" (click)="selectedCategory() ? update() : create()">{{
-            selectedCategory() ? 'Atualizar' : 'Adicionar' }}</button>
-        @if (selectedCategory()) {
-        <button class="bg-red-500 text-white p-2 rounded-md" (click)="delete()">Excluir</button>
-        }
-        <button class="bg-gray-500 text-white p-2 rounded-md" (click)="closeForm()">Fechar</button>
     </div>
-</form>
-}
+    <div class="mp-actions">
+      <button type="button" class="mp-btn" (click)="selectedCategory() ? update() : create()">
+        {{ selectedCategory() ? 'Atualizar' : 'Adicionar' }}
+      </button>
+      @if (selectedCategory()) {
+      <button type="button" class="mp-btn-danger" (click)="delete()">Excluir</button>
+      }
+      <button type="button" class="mp-btn-ghost" (click)="closeForm()">Fechar</button>
+    </div>
+  </form>
+  }
 
-<table class="table-auto">
-    <thead class="bg-gray-200">
-        <tr>
-            <th class="px-4 py-2">ID</th>
-            <th class="px-4 py-2">Título</th>
-            <th class="px-4 py-2">Ações</th>
-        </tr>
+  <table class="mp-table" style="margin-top: 2rem;">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Título</th>
+        <th></th>
+      </tr>
     </thead>
-    @for (category of categories(); track category.id) {
-    <tr class="hover:bg-gray-100">
-        <td class="px-4 py-2">{{ category.id }}</td>
-        <td class="px-4 py-2">{{ category.title }}</td>
-        <td class="px-4 py-2">
-            <button class="bg-blue-500 text-white p-2 rounded-md"
-                (click)="openForm(category); categoryName.set(category.title); categoryId.set(category.id)">Editar</button>
+    <tbody>
+      @for (category of categories(); track category.id) {
+      <tr>
+        <td>{{ category.id }}</td>
+        <td>{{ category.title }}</td>
+        <td>
+          <button type="button" class="mp-btn-ghost" (click)="openForm(category); categoryName.set(category.title); categoryId.set(category.id)">Editar</button>
         </td>
-    </tr>
-    }
-</table>
+      </tr>
+      }
+    </tbody>
+  </table>
+</section>

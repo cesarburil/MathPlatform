@@ -1,0 +1,11 @@
+@if (videoId()) {
+<div class="mp-player" [class.is-cinema]="cinema()">
+  <youtube-player
+    [videoId]="videoId()"
+    [width]="cinema() ? 1280 : 960"
+    [height]="cinema() ? 720 : 540"
+    [playerVars]="playerVars"
+    [placeholderImageQuality]="cinema() ? 'high' : 'standard'"
+    placeholderButtonLabel="Assistir" />
+</div>
+}

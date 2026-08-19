@@ -1,11 +1,10 @@
 import { Component, signal } from '@angular/core';
 import { AdminService } from '../../services/admin.service';
-import { Navbar } from "../navbar/navbar";
-import { NavbarItem } from "../navbar/navbar-item/navbar-item";
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-admin',
-  imports: [Navbar, NavbarItem],
+  imports: [RouterLink],
   templateUrl: './admin.html',
   styleUrl: './admin.scss',
 })

@@ -3,10 +3,11 @@ import { LessonsService } from '../../../services/lessons.service';
 import { LessonResponse } from '../../../models/LessonResponse';
 import { CategoriesService } from '../../../services/categories.service';
 import { CategoryResponse } from '../../../models/CategoryResponse';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-lesson-manager',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './lesson-manager.html',
   styleUrl: './lesson-manager.scss',
 })
@@ -49,6 +50,7 @@ export class LessonManager {
     }
 
     closeForm(): void {
+        this.showForm.set(false);
         this.lessonTitle.set('');
         this.lessonId.set(0);
         this.selectedLesson.set(null);
@@ -56,6 +58,7 @@ export class LessonManager {
 
     openForm(lesson: LessonResponse | null): void {
         this.showForm.set(true);
+        this.selectedLesson.set(lesson);
         if (lesson) {
             this.lessonTitle.set(lesson.title);
             this.lessonId.set(lesson.id);

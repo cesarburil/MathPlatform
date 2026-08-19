@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LoginService } from '../../services/login.service';
+import { ToastService } from '../../services/toast.service';
 import { UserDto } from '../../models/UserDto';
 import { Router, RouterLink } from '@angular/router';
 
@@ -12,12 +13,14 @@ import { Router, RouterLink } from '@angular/router';
 })
 export class Login {
 
-  constructor(private loginService: LoginService, private router: Router) {
-
+  constructor(
+    private loginService: LoginService,
+    private router: Router,
+    private toasts: ToastService,
+  ) {
     if (localStorage.getItem("_")?.length) {
       router.navigate(["home"])
     }
-
   };
 
   userForm = new FormGroup({
@@ -25,27 +28,21 @@ export class Login {
     password: new FormControl<string>("", [Validators.required]),
   });
 
-  login(): void {
-    if (this.userForm.valid) {
-
-      this.loginService.login(this.userForm.value as UserDto).subscribe(
-        {
-          next: (result) => {
-            console.log(result);
-            localStorage.setItem("_", result);
-            this.router.navigate(["home"])
-          },
-          error: (e) => {
-            alert(e.error);
-          }
-        }
-      )
-
-    }
-    else {
-      alert("Not valid");
-    }
+  loginDemo(): void {
+    this.loginService.enterDemo();
   }
 
+  login(): void {
+    if (!this.userForm.valid) {
+      this.toasts.error('Preencha usuário e senha.');
+      return;
+    }
 
+    this.loginService.login(this.userForm.value as UserDto).subscribe({
+      next: (result) => {
+        this.loginService.setSession(result);
+        this.router.navigate(["home"]);
+      },
+    });
+  }
 }

@@ -31,7 +31,7 @@ public class QuestionController {
     @ApiResponse(responseCode = "200", description = "Questions listed successfully")
     @ApiResponse(responseCode = "404", description = "No questions found")
     @ApiResponse(responseCode = "500", description = "Server error")
-    public ResponseEntity<List<QuestionResponse>> getAllQuestions(@RequestParam(defaultValue = "5") @Max(15) int quantity,
+    public ResponseEntity<List<QuestionResponse>> getAllQuestions(@RequestParam(defaultValue = "15") @Max(50) int quantity,
                                                                   @RequestParam(defaultValue = "0") int pageNum) {
         return new ResponseEntity<>(service.getAllQuestions(pageNum, quantity), HttpStatus.OK);
     }

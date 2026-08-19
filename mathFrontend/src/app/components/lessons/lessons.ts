@@ -1,4 +1,4 @@
-import { Component, inject, input, OnDestroy, OnInit, signal } from '@angular/core';
+import { Component, inject, input, OnInit, signal } from '@angular/core';
 import { LessonsService } from '../../services/lessons.service';
 import { LessonResponse } from '../../models/LessonResponse';
 import { RouterLink } from "@angular/router";

@@ -1,15 +1,19 @@
-<app-comment [comment]="selectedComment()"></app-comment>
-
-<form class="w-full max-w-sm m-5">
-  <div class="flex items-center border-b border-teal-500 py-2">
-    <input (change)="newAnswerTitle.set($event.target.value)" class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none" type="text" placeholder="Responda" aria-label="Full name">
-    <button (click)="addAnswer()" class="flex-shrink-0 bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 rounded" type="button">
-      Adicionar Resposta
-    </button>
+<section>
+  <div class="mp-actions" style="margin-bottom: 1.5rem;">
+    <a routerLink="/comments" class="mp-btn-ghost">Voltar</a>
   </div>
-</form>
 
+  <app-comment [comment]="selectedComment()"></app-comment>
 
-@for (answer of selectedComment()?.answers; track $index) {
-  <p class="text-gray-700">{{ answer.username || "Anônimo" }}: {{ answer.title }}</p>
-}
+  <form class="mp-form" style="margin: 2rem 0;" (submit)="$event.preventDefault()">
+    <div>
+      <label class="mp-label" for="new-answer">Resposta</label>
+      <input id="new-answer" [value]="newAnswerTitle()" (input)="newAnswerTitle.set($any($event.target).value)" class="mp-input" type="text" placeholder="Escreva">
+    </div>
+    <button type="button" (click)="addAnswer()" class="mp-btn">Responder</button>
+  </form>
+
+  @for (answer of selectedComment()?.answers; track answer.id) {
+  <p class="mp-reply"><strong>{{ answer.username || 'Anônimo' }}</strong> {{ answer.title }}</p>
+  }
+</section>

@@ -14,7 +14,6 @@ import java.security.Key;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.function.Function;
 
 @Service
@@ -33,11 +32,15 @@ public class JwtService {
     public String generateToken(String username) {
 
         UserDetails user = userRepository.findByUsername(username);
+        String role = "USER";
+        if (user instanceof User appUser && appUser.getRole() != null) {
+            role = appUser.getRole().name();
+        }
 
         return Jwts
                 .builder()
                 .subject(username)
-                .claims(new HashMap<>())
+                .claim("role", role)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 5))
                 .signWith(getKey(), SignatureAlgorithm.HS256)

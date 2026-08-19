@@ -13,7 +13,7 @@ export class QuestionsService {
   constructor(private httpClient: HttpClient) { };
 
   getAll(): Observable<QuestionResponse[]> {
-    return this.httpClient.get<QuestionResponse[]>(`${environment.apiUrl}/questions/`)
+    return this.httpClient.get<QuestionResponse[]>(`${environment.apiUrl}/questions/?quantity=50`)
   }
 
   verify(verifiedQuestion: VerifiedQuestionRequest): Observable<boolean> {

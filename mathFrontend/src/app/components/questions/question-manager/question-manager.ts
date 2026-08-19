@@ -6,10 +6,11 @@ import { CategoriesService } from '../../../services/categories.service';
 import { CategoryResponse } from '../../../models/CategoryResponse';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { QuestionRequest } from '../../../models/QuestionRequest';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-question-manager',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './question-manager.html',
   styleUrl: './question-manager.scss',
 })
@@ -54,7 +55,6 @@ export class QuestionManager {
       alternatives: this.alternatives() as unknown as never[],
     });
 
-    console.log(this.questionForm.value);
     this.questionsService
       .create(this.questionForm.value as QuestionRequest)
       .subscribe((question) => {

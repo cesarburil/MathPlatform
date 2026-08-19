@@ -1,0 +1,32 @@
+:host {
+  display: block;
+}
+
+.mp-player {
+  width: 100%;
+  max-width: 960px;
+  background: #070720;
+}
+
+.mp-player.is-cinema {
+  max-width: none;
+}
+
+.mp-player.is-cinema ::ng-deep youtube-player,
+.mp-player.is-cinema ::ng-deep .youtube-player-placeholder {
+  display: block;
+  width: 100% !important;
+  max-width: none;
+}
+
+.mp-player.is-cinema ::ng-deep .youtube-player-placeholder {
+  height: auto !important;
+  aspect-ratio: 16 / 9;
+}
+
+.mp-player ::ng-deep iframe {
+  display: block;
+  width: 100% !important;
+  height: auto !important;
+  aspect-ratio: 16 / 9;
+}

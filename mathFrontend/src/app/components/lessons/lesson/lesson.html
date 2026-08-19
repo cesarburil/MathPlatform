@@ -1,6 +1,57 @@
-<p>lesson works!</p>
+<div class="mp-watch">
+  <header class="mp-watch-bar">
+    @if (lesson(); as current) {
+    <a class="mp-watch-back" [routerLink]="['/lessons', current.categoryId]">Voltar</a>
+    } @else {
+    <a class="mp-watch-back" routerLink="/categories">Voltar</a>
+    }
+    <p class="mp-watch-cat">{{ lesson()?.categoryName || 'Aula' }}</p>
+  </header>
 
-<button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" routerLink="/lessons/
-{{lesson()?.categoryId}}">
-  Voltar
-</button>
+  <div class="mp-watch-body">
+    <div class="mp-watch-stage">
+      @if (lesson(); as current) {
+      @if (current.video) {
+      <div class="mp-watch-player">
+        <app-embed-video [videoLink]="current.video" [cinema]="true"></app-embed-video>
+      </div>
+      } @else {
+      <p class="mp-watch-status">Esta aula ainda não tem vídeo.</p>
+      }
+
+      <div class="mp-watch-copy">
+        <h1 class="mp-watch-title">{{ current.title }}</h1>
+        <p class="mp-watch-lead">{{ current.description }}</p>
+      </div>
+
+      <nav class="mp-watch-nav" aria-label="Continuar">
+        @if (previous(); as prev) {
+        <a class="mp-watch-link" [routerLink]="['/watch', prev.id]">Aula anterior</a>
+        }
+        @if (next(); as nxt) {
+        <a class="mp-watch-link" [routerLink]="['/watch', nxt.id]">Próxima aula</a>
+        }
+        <a class="mp-watch-link" routerLink="/questions">Praticar exercícios</a>
+      </nav>
+      } @else {
+      <p class="mp-watch-status">Carregando a aula</p>
+      }
+    </div>
+
+    <aside class="mp-watch-notes">
+      <p class="mp-kicker">Notas</p>
+      <h2 class="mp-watch-notes-title">O que você quer lembrar</h2>
+      <p class="mp-watch-notes-hint">Ficam neste aparelho. Nada vai para o servidor.</p>
+      <textarea
+        class="mp-watch-pad"
+        [value]="notes()"
+        (input)="onNotes($event)"
+        aria-label="Notas da aula"
+        spellcheck="true"
+        autocomplete="off"></textarea>
+      @if (notes()) {
+      <button type="button" class="mp-watch-clear" (click)="clearNotes()">Limpar notas</button>
+      }
+    </aside>
+  </div>
+</div>

@@ -71,6 +71,7 @@ public class QuestionConverter {
                 .id(question.getId())
                 .categoryName(question.getCategory().getTitle())
                 .difficulty(question.getDifficulty().toString())
+                .categoryId(question.getCategory().getId())
                 .alternatives(alternativeConverter.alternativeToResponse(question.getAlternatives()))
                 .video(question.getVideo())
                 .build();

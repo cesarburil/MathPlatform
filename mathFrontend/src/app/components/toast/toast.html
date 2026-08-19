@@ -1,0 +1,16 @@
+<div class="mp-toasts" aria-live="polite" aria-relevant="additions">
+  @for (toast of toasts.items(); track toast.id) {
+  <div class="mp-toast" [class.is-ok]="toast.kind === 'ok'" [class.has-action]="toast.action" role="status">
+    <span class="mp-toast-mark" aria-hidden="true"></span>
+    <div>
+      <p class="mp-toast-text">{{ toast.text }}</p>
+      @if (toast.action) {
+      <a class="mp-toast-action" [routerLink]="toast.action.path" (click)="toasts.dismiss(toast.id)">
+        {{ toast.action.label }}
+      </a>
+      }
+    </div>
+    <button type="button" class="mp-toast-close" (click)="toasts.dismiss(toast.id)">Fechar</button>
+  </div>
+  }
+</div>
