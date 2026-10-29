@@ -1,16 +1,25 @@
-<div class="grid grid-cols-3 gap-4 justify-between">
-  @for (category of categories(); track $index) {
-  <div class="max-w-sm rounded overflow-hidden shadow-lg cursor-pointer" 
-  routerLink="/lessons/{{category.id}}">
-    <img class="w-full" src="https://v1.tailwindcss.com/img/card-top.jpg" alt="Sunset in the mountains">
-    <div class="px-6 py-4">
-      <div class="font-bold text-xl mb-2">{{category.title}}</div>
-    </div>
-    <div class="px-6 pt-4 pb-2">
-      <span
-        class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#{{category.id}}
-      </span>
+<section>
+  <div class="mp-page-head">
+    <div>
+      <p class="mp-kicker">Aulas</p>
+      <h1 class="mp-title" style="font-size: clamp(2rem, 5vw, 3.2rem);">Escolha o tema</h1>
+      <p class="mp-lead">Selecione um assunto para estudar</p>
     </div>
   </div>
+
+  @if (categories()?.length) {
+  <div class="mp-catalog">
+    @for (category of categories(); track category.id) {
+    <a class="mp-catalog-item" [routerLink]="['/lessons', category.id]">
+      <div>
+        <span class="mp-chip">#{{ category.id }}</span>
+        <h3 style="margin-top: 0.85rem;">{{ category.title }}</h3>
+      </div>
+      <p>Ver aulas →</p>
+    </a>
+    }
+  </div>
+  } @else {
+  <p class="mp-empty">Nenhuma categoria por aqui ainda.</p>
   }
-</div>
+</section>

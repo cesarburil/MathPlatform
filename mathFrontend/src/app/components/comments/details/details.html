@@ -1,15 +1,38 @@
-<app-comment [comment]="selectedComment()"></app-comment>
-
-<form class="w-full max-w-sm m-5">
-  <div class="flex items-center border-b border-teal-500 py-2">
-    <input (change)="newAnswerTitle.set($event.target.value)" class="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none" type="text" placeholder="Responda" aria-label="Full name">
-    <button (click)="addAnswer()" class="flex-shrink-0 bg-teal-500 hover:bg-teal-700 border-teal-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 rounded" type="button">
-      Adicionar Resposta
-    </button>
+<section>
+  <div class="mp-page-head">
+    <div>
+      <p class="mp-kicker">Tópico</p>
+      <h1 class="mp-title" style="font-size: clamp(1.8rem, 4vw, 2.6rem);">
+        {{ selectedComment()?.title || '…' }}
+      </h1>
+      <p class="mp-lead">por {{ selectedComment()?.username || 'Anônimo' }}</p>
+    </div>
+    <a routerLink="/comments" class="mp-btn-ghost">Voltar</a>
   </div>
-</form>
 
+  <div class="mp-forum-compose">
+    <input
+      class="mp-input"
+      type="text"
+      placeholder="Escreva uma resposta"
+      [value]="newAnswerTitle()"
+      (input)="newAnswerTitle.set($any($event.target).value)"
+      aria-label="Resposta"
+    />
+    <button type="button" class="mp-btn" (click)="addAnswer()">Responder</button>
+  </div>
 
-@for (answer of selectedComment()?.answers; track $index) {
-  <p class="text-gray-700">{{ answer.username || "Anônimo" }}: {{ answer.title }}</p>
-}
+  <div class="mp-index">
+    @for (answer of selectedComment()?.answers; track answer.id) {
+    <div class="mp-index-row" style="cursor: default;">
+      <span class="mp-index-num">↳</span>
+      <span class="mp-index-title" style="font-size: 1rem; font-family: var(--mp-font-ui); font-weight: 600;">
+        {{ answer.title }}
+      </span>
+      <span class="mp-index-meta">{{ answer.username || 'Anônimo' }}</span>
+    </div>
+    } @empty {
+    <p class="mp-empty">Ainda sem respostas.</p>
+    }
+  </div>
+</section>

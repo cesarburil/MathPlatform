@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { LoginService } from '../../services/login.service';
-import { RouterLink } from "@angular/router";
 
 @Component({
   selector: 'app-home',
@@ -9,11 +9,5 @@ import { RouterLink } from "@angular/router";
   styleUrl: './home.scss',
 })
 export class Home {
-
-  constructor(private loginService: LoginService) { };
-
-  logout(): void {
-    this.loginService.logout();
-  }
-
+  constructor(readonly login: LoginService) {}
 }

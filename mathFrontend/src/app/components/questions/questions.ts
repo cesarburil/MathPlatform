@@ -1,7 +1,6 @@
-import { Component, resource, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { QuestionsService } from '../../services/questions.service';
 import { QuestionResponse } from '../../models/QuestionResponse';
-import { VerifiedQuestionRequest } from '../../models/VerifiedQuestionRequest';
 
 @Component({
   selector: 'app-questions',
@@ -11,23 +10,35 @@ import { VerifiedQuestionRequest } from '../../models/VerifiedQuestionRequest';
 })
 export class Questions {
   constructor(private questionsService: QuestionsService) {
-    questionsService.getAll().subscribe(result =>
-      this.allQuestions.set(result)
-    )
+    questionsService.getAll().subscribe((result) => this.allQuestions.set(result));
   }
 
   allQuestions = signal<QuestionResponse[] | null>(null);
+  selectedQuestionId = signal(0);
+  selectedAltId = signal(0);
+  verdict = signal<Record<number, boolean>>({});
 
-  selectedQuestionId = signal<number>(0);
-  selectedAltId = signal<number>(0);
-
-  verify() {
-    this.questionsService.verify({
-      questionId: this.selectedQuestionId(),
-      alternativeId: this.selectedAltId()
-    }).subscribe(result =>
-      alert(result)
-    );
+  difficultyLabel(value: string): string {
+    if (value === 'EASY') return 'Fácil';
+    if (value === 'MEDIUM') return 'Médio';
+    if (value === 'HARD') return 'Difícil';
+    return value;
   }
 
+  select(questionId: number, altId: number): void {
+    this.selectedQuestionId.set(questionId);
+    this.selectedAltId.set(altId);
+  }
+
+  verify(): void {
+    const questionId = this.selectedQuestionId();
+    this.questionsService
+      .verify({
+        questionId,
+        alternativeId: this.selectedAltId(),
+      })
+      .subscribe((result) => {
+        this.verdict.update((current) => ({ ...current, [questionId]: result }));
+      });
+  }
 }

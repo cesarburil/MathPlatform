@@ -1,4 +1,4 @@
-import { ActivatedRoute, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 import { Home } from './components/home/home';
 import { Login } from './components/login/login';
 import { authguardGuard } from './authguard-guard';
@@ -14,21 +14,23 @@ import { Comments } from './components/comments/comments';
 import { Details } from './components/comments/details/details';
 
 export const routes: Routes = [
-  { path: "login", component: Login },
-  { path: "register", component: Register },
-  { path: "about", component: About },
+  { path: '', pathMatch: 'full', redirectTo: 'home' },
+  { path: 'home', component: Home },
+  { path: 'login', component: Login },
+  { path: 'register', component: Register },
+  { path: 'about', component: About },
   {
-    path: "", canActivate: [authguardGuard], children: [
-      { path: "", pathMatch: "full", redirectTo: "home" },
-      { path: "home", component: Home },
-      { path: "pay", component: Payment},
-      { path: "checkPayment", component: CheckPayment},
-      { path: "categories", component: Categories},
-      { path: "lessons/:categoryId", component: Lessons},
-      { path: "watch/:lessonId", component: Lesson},
-      { path: "questions", component: Questions},
-      { path: "comments", component: Comments},
-      { path: "comments/:commentId", component: Details},
-    ]
-  }
+    path: '',
+    canActivate: [authguardGuard],
+    children: [
+      { path: 'pay', component: Payment },
+      { path: 'checkPayment', component: CheckPayment },
+      { path: 'categories', component: Categories },
+      { path: 'lessons/:categoryId', component: Lessons },
+      { path: 'watch/:lessonId', component: Lesson },
+      { path: 'questions', component: Questions },
+      { path: 'comments', component: Comments },
+      { path: 'comments/:commentId', component: Details },
+    ],
+  },
 ];

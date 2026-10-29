@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { UserDto } from '../models/UserDto';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
@@ -9,21 +9,35 @@ import { environment } from '../../environments/environment';
   providedIn: 'root',
 })
 export class LoginService {
-  constructor(private httpClient: HttpClient, private router: Router) { };
+  readonly loggedIn = signal(!!localStorage.getItem('_')?.length);
+
+  constructor(
+    private httpClient: HttpClient,
+    private router: Router,
+  ) {}
 
   login(userDto: UserDto): Observable<string> {
-    var data = { username: userDto.username, password: userDto.password };
-    return this.httpClient.post<string>(`${environment.apiUrl}/login`, data, { responseType: 'text' as 'json' })
+    const data = { username: userDto.username, password: userDto.password };
+    return this.httpClient
+      .post<string>(`${environment.apiUrl}/login`, data, { responseType: 'text' as 'json' })
+      .pipe(
+        tap((token) => {
+          localStorage.setItem('_', token);
+          this.loggedIn.set(true);
+        }),
+      );
   }
 
   register(userDto: UserDto): Observable<string> {
-    var data = { username: userDto.username, password: userDto.password };
-    return this.httpClient.post<string>(`${environment.apiUrl}/register`, data, { responseType: 'text' as 'json' })
+    const data = { username: userDto.username, password: userDto.password };
+    return this.httpClient.post<string>(`${environment.apiUrl}/register`, data, {
+      responseType: 'text' as 'json',
+    });
   }
 
   logout(): void {
-    localStorage.clear();
-    this.router.navigate(["/login"]);
+    localStorage.removeItem('_');
+    this.loggedIn.set(false);
+    this.router.navigate(['/home']);
   }
-
 }

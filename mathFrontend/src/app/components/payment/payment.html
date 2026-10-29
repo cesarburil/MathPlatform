@@ -1,38 +1,42 @@
-
-    <div class="w-full max-w-3xl mx-auto p-8">
-        <div class="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md border dark:border-gray-700">
-            <h1 class="text-2xl font-bold text-gray-800 dark:text-white mb-4">Checkout</h1>
-
-            
-            <form [formGroup]="paymentForm">
-                <h2 class="text-xl font-semibold text-gray-700 dark:text-white mb-2">Informações de Pagamento</h2>
-                <div class="mt-4">
-                    <label for="card_holder" class="block text-gray-700 dark:text-white mb-1">Nome</label>
-                    <input formControlName="holder"  type="text" id="card_holder" class="w-full rounded-lg border py-2 px-3 dark:bg-gray-700 dark:text-white dark:border-none">
-                </div>
-                <div class="mt-4">
-                    <label for="card_number" class="block text-gray-700 dark:text-white mb-1">Número do Cartão</label>
-                    <input formControlName="number"  type="text" id="card_number" class="w-full rounded-lg border py-2 px-3 dark:bg-gray-700 dark:text-white dark:border-none">
-                </div>
-
-                <div class="grid grid-cols-3 gap-4 mt-4">
-                    <div>
-                        <label for="exp_month" class="block text-gray-700 dark:text-white mb-1">Mês</label>
-                        <input formControlName="expMonth" type="text" id="exp_month" class="w-full rounded-lg border py-2 px-3 dark:bg-gray-700 dark:text-white dark:border-none">
-                    </div>
-                    <div>
-                        <label for="exp_year" class="block text-gray-700 dark:text-white mb-1">Ano</label>
-                        <input formControlName="expYear" type="text" id="exp_year" class="w-full rounded-lg border py-2 px-3 dark:bg-gray-700 dark:text-white dark:border-none">
-                    </div>
-                    <div>
-                        <label for="cvv" class="block text-gray-700 dark:text-white mb-1">CVV</label>
-                        <input formControlName="securityCode" type="text" id="cvv" class="w-full rounded-lg border py-2 px-3 dark:bg-gray-700 dark:text-white dark:border-none">
-                    </div>
-                </div>
-              </form>
-
-            <div class="mt-8 flex justify-end">
-                <button [disabled]="!paymentForm.valid" (click)="pay()" class="bg-teal-500 text-white px-4 py-2 rounded-lg hover:bg-teal-700 dark:bg-teal-600 dark:text-white dark:hover:bg-teal-900">Comprar</button>
-            </div>
-        </div>
+<section>
+  <div class="mp-page-head">
+    <div>
+      <p class="mp-kicker">Assinatura</p>
+      <h1 class="mp-title" style="font-size: clamp(2rem, 5vw, 3.2rem);">Checkout</h1>
+      <p class="mp-lead">1 mês de acesso · R$ 5,00 · pagamento seguro</p>
     </div>
+  </div>
+
+  <div class="mp-panel" style="max-width: 34rem;">
+    <form [formGroup]="paymentForm" class="mp-form" style="width: 100%;">
+      <label class="mp-label" for="card_holder">
+        Nome no cartão
+        <input class="mp-input" formControlName="holder" type="text" id="card_holder" />
+      </label>
+      <label class="mp-label" for="card_number">
+        Número do cartão
+        <input class="mp-input" formControlName="number" type="text" id="card_number" />
+      </label>
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem;">
+        <label class="mp-label" for="exp_month">
+          Mês
+          <input class="mp-input" formControlName="expMonth" type="text" id="exp_month" />
+        </label>
+        <label class="mp-label" for="exp_year">
+          Ano
+          <input class="mp-input" formControlName="expYear" type="text" id="exp_year" />
+        </label>
+        <label class="mp-label" for="cvv">
+          CVV
+          <input class="mp-input" formControlName="securityCode" type="text" id="cvv" />
+        </label>
+      </div>
+    </form>
+
+    <div style="margin-top: 1.5rem;">
+      <button type="button" class="mp-btn" [disabled]="!paymentForm.valid" (click)="pay()">
+        Pagar R$ 5,00
+      </button>
+    </div>
+  </div>
+</section>
