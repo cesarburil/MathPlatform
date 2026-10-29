@@ -1,22 +1,27 @@
 <section>
-  <div class="mp-actions" style="margin-bottom: 2rem;">
+  <div class="mp-page-head">
+    <div>
+      <p class="mp-kicker">Trilha</p>
+      <h1 class="mp-title" style="font-size: clamp(2rem, 5vw, 3rem);">Aulas</h1>
+      <p class="mp-lead">Escolha uma aula para assistir.</p>
+    </div>
     <a routerLink="/categories" class="mp-btn-ghost">Voltar</a>
   </div>
-  <p class="mp-kicker">Categoria</p>
-  <h1 class="mp-title">Aulas</h1>
 
-  <div class="mp-index" style="margin-top: 2.5rem;">
+  @if (lessons()?.length) {
+  <div class="mp-lesson-list">
     @for (lesson of lessons(); track lesson.id; let i = $index) {
-    <a class="mp-index-row" [routerLink]="['/watch', lesson.id]">
-      <span class="mp-index-num">{{ (i + 1).toString().padStart(2, '0') }}</span>
-      <span>
-        <span class="mp-index-title">{{ lesson.title }}</span>
-        <p style="margin: 0.35rem 0 0; font-size: 0.95rem;">{{ lesson.description }}</p>
-      </span>
-      <span class="mp-index-meta">{{ lesson.categoryName }}</span>
+    <a class="mp-lesson-row" [routerLink]="['/watch', lesson.id]">
+      <div class="mp-lesson-thumb">{{ (i + 1).toString().padStart(2, '0') }}</div>
+      <div class="mp-lesson-body">
+        <p class="mp-muted" style="margin: 0; font-size: 0.82rem;">{{ lesson.categoryName }}</p>
+        <h3>{{ lesson.title }}</h3>
+        <p>{{ lesson.description }}</p>
+      </div>
     </a>
-    } @empty {
-    <p class="mp-empty">Não há aulas aqui.</p>
     }
   </div>
+  } @else {
+  <p class="mp-empty">Não há aulas nesta categoria.</p>
+  }
 </section>

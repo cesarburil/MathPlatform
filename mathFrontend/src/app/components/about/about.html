@@ -1,28 +1,95 @@
 <section>
   <p class="mp-kicker">Sobre</p>
-  <h1 class="mp-title">
-    Backend + frontend
+  <h1 class="mp-title" style="font-size: clamp(2.4rem, 6vw, 4.2rem); max-width: 12ch;">
+    Backend e frontend do zero
   </h1>
   <p class="mp-lead">
-    Criei o MathPlatform do zero, como um sistema educacional full stack.
-    JWT, user roles, PagBank e deploy com Docker.
+    Criei o MathPlatform como sistema educacional full stack: autenticação JWT, papéis de usuário,
+    pagamento com PagBank e deploy com Docker.
   </p>
 
-  <div class="mp-index" style="margin-top: 3.5rem;">
-    <div class="mp-index-row" style="cursor: default;">
-      <span class="mp-index-num">01</span>
-      <span class="mp-index-title">Spring Security e JWT</span>
-      <span class="mp-index-meta">Auth</span>
-    </div>
-    <div class="mp-index-row" style="cursor: default;">
-      <span class="mp-index-num">02</span>
-      <span class="mp-index-title">PagBank, webhook e SSE</span>
-      <span class="mp-index-meta">Pagamento</span>
-    </div>
-    <div class="mp-index-row" style="cursor: default;">
-      <span class="mp-index-num">03</span>
-      <span class="mp-index-title">Docker, Nginx e HTTPS</span>
-      <span class="mp-index-meta">Deploy</span>
-    </div>
+  <div class="mp-about-topics">
+    <article class="mp-about-topic">
+      <div class="mp-feature-art" aria-hidden="true">
+        <svg class="mp-line-art" viewBox="0 0 160 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="42" y="30" width="76" height="46" rx="8" class="mp-stroke" />
+          <circle cx="80" cy="46" r="10" class="mp-stroke" />
+          <path d="M80 56 V68" class="mp-stroke" stroke-linecap="round" />
+          <path d="M74 63 H86" class="mp-stroke" stroke-linecap="round" />
+          <path d="M28 22 H58" class="mp-stroke mp-stroke-soft" stroke-linecap="round" />
+          <path d="M102 22 H132" class="mp-stroke mp-stroke-soft" stroke-linecap="round" />
+          <circle cx="66" cy="22" r="3" class="mp-fill" />
+          <circle cx="94" cy="22" r="3" class="mp-stroke" />
+          <path d="M66 22 H94" class="mp-stroke mp-stroke-faint" stroke-linecap="round" />
+        </svg>
+      </div>
+      <div class="mp-feature-copy">
+        <span class="mp-index-num">01</span>
+        <h2 class="mp-feature-title">Spring Security e JWT</h2>
+        <p class="mp-feature-text">
+          Sessão stateless com token. Login e registro públicos; o restante da API exige Bearer JWT e
+          papéis (USER, PREMIUM, ADMIN).
+        </p>
+        <span class="mp-index-meta">Auth</span>
+      </div>
+    </article>
+
+    <article class="mp-about-topic">
+      <div class="mp-feature-art" aria-hidden="true">
+        <svg class="mp-line-art" viewBox="0 0 160 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="24" y="28" width="72" height="44" rx="6" class="mp-stroke" />
+          <path d="M24 42 H96" class="mp-stroke" />
+          <path d="M36 58 H62" class="mp-stroke mp-stroke-soft" stroke-linecap="round" />
+          <path d="M108 36 H140" class="mp-stroke mp-stroke-soft" stroke-linecap="round" />
+          <path d="M108 50 H132" class="mp-stroke" stroke-linecap="round" />
+          <path d="M108 64 H140" class="mp-stroke mp-stroke-soft" stroke-linecap="round" />
+          <circle cx="148" cy="50" r="5" class="mp-stroke" />
+          <circle cx="148" cy="50" r="2" class="mp-fill" />
+          <path d="M96 50 H108" class="mp-stroke mp-stroke-faint" stroke-linecap="round" />
+        </svg>
+      </div>
+      <div class="mp-feature-copy">
+        <span class="mp-index-num">02</span>
+        <h2 class="mp-feature-title">PagBank, webhook e SSE</h2>
+        <p class="mp-feature-text">
+          Cartão criptografado no browser, pedido na API sandbox, confirmação por webhook e aviso em
+          tempo real via Server-Sent Events.
+        </p>
+        <span class="mp-index-meta">Pagamento</span>
+      </div>
+    </article>
+
+    <article class="mp-about-topic">
+      <div class="mp-feature-art" aria-hidden="true">
+        <svg class="mp-line-art" viewBox="0 0 160 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="20" y="24" width="36" height="28" rx="4" class="mp-stroke" />
+          <rect x="62" y="24" width="36" height="28" rx="4" class="mp-stroke" />
+          <rect x="104" y="24" width="36" height="28" rx="4" class="mp-stroke" />
+          <path d="M38 52 V64" class="mp-stroke mp-stroke-soft" stroke-linecap="round" />
+          <path d="M80 52 V64" class="mp-stroke mp-stroke-soft" stroke-linecap="round" />
+          <path d="M122 52 V64" class="mp-stroke mp-stroke-soft" stroke-linecap="round" />
+          <path d="M38 64 H122" class="mp-stroke" stroke-linecap="round" />
+          <circle cx="38" cy="76" r="5" class="mp-stroke" />
+          <circle cx="80" cy="76" r="5" class="mp-fill" />
+          <circle cx="122" cy="76" r="5" class="mp-stroke" />
+          <path d="M43 76 H75" class="mp-stroke mp-stroke-faint" stroke-linecap="round" />
+          <path d="M85 76 H117" class="mp-stroke mp-stroke-faint" stroke-linecap="round" />
+        </svg>
+      </div>
+      <div class="mp-feature-copy">
+        <span class="mp-index-num">03</span>
+        <h2 class="mp-feature-title">Docker, Nginx e CI/CD</h2>
+        <p class="mp-feature-text">
+          Imagens multi-stage, Compose com API + frontend + Postgres, Nginx na borda e pipeline no
+          GitHub Actions até a VPS.
+        </p>
+        <span class="mp-index-meta">Deploy</span>
+      </div>
+    </article>
+  </div>
+
+  <div class="mp-actions" style="margin-top: 2.5rem;">
+    <a routerLink="/register" class="mp-btn">Criar conta</a>
+    <a routerLink="/home" class="mp-btn-ghost">Voltar ao início</a>
   </div>
 </section>

@@ -1,32 +1,28 @@
-import { computed, Injectable, signal } from '@angular/core';
-
-export type ThemeName = 'light' | 'dark';
-
-const STORAGE_KEY = 'mp-theme';
+import { Injectable, signal } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ThemeService {
-  readonly theme = signal<ThemeName>(readStoredTheme());
-  readonly isDark = computed(() => this.theme() === 'dark');
+  private readonly storageKey = 'mp-theme';
+  readonly isDark = signal(false);
 
   constructor() {
-    this.apply(this.theme());
+    const saved = localStorage.getItem(this.storageKey);
+    const prefersDark =
+      typeof window !== 'undefined' &&
+      window.matchMedia?.('(prefers-color-scheme: dark)').matches;
+    const dark = saved ? saved === 'dark' : !!prefersDark;
+    this.apply(dark);
   }
 
   toggle(): void {
-    const next: ThemeName = this.theme() === 'dark' ? 'light' : 'dark';
-    this.theme.set(next);
-    localStorage.setItem(STORAGE_KEY, next);
-    this.apply(next);
+    this.apply(!this.isDark());
   }
 
-  private apply(theme: ThemeName): void {
-    document.documentElement.setAttribute('data-theme', theme);
+  private apply(dark: boolean): void {
+    this.isDark.set(dark);
+    document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+    localStorage.setItem(this.storageKey, dark ? 'dark' : 'light');
   }
-}
-
-function readStoredTheme(): ThemeName {
-  return localStorage.getItem(STORAGE_KEY) === 'dark' ? 'dark' : 'light';
 }

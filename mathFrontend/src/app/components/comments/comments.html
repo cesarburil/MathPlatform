@@ -1,18 +1,27 @@
 <section>
-  <p class="mp-kicker">Fórum</p>
-  <h1 class="mp-title">Comentários</h1>
-
-  <form class="mp-form" style="margin: 2rem 0 2.5rem;" (submit)="$event.preventDefault()">
+  <div class="mp-page-head">
     <div>
-      <label class="mp-label" for="new-comment">Novo tópico</label>
-      <input id="new-comment" [value]="newCommentTitle()" (input)="newCommentTitle.set($any($event.target).value)" class="mp-input" type="text" placeholder="Título">
+      <p class="mp-kicker">Fórum</p>
+      <h1 class="mp-title" style="font-size: clamp(2rem, 5vw, 3.2rem);">Dúvidas</h1>
+      <p class="mp-lead">Abra um tópico ou entre em uma conversa já em andamento.</p>
     </div>
-    <button type="button" (click)="addComment()" class="mp-btn">Publicar</button>
-  </form>
+  </div>
+
+  <div class="mp-forum-compose">
+    <input
+      class="mp-input"
+      type="text"
+      placeholder="Título do comentário"
+      [value]="newCommentTitle()"
+      (input)="newCommentTitle.set($any($event.target).value)"
+      aria-label="Título do comentário"
+    />
+    <button type="button" class="mp-btn" (click)="addComment()">Publicar</button>
+  </div>
 
   @for (comment of comments(); track comment.id) {
   <app-comment [comment]="comment"></app-comment>
   } @empty {
-  <p class="mp-empty">Nenhum comentário ainda.</p>
+  <p class="mp-empty">Nenhum comentário ainda. Seja o primeiro.</p>
   }
 </section>

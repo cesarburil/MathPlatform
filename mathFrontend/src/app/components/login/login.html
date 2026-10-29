@@ -1,30 +1,38 @@
-<div class="mp-auth">
+<section class="mp-auth">
   <div>
     <p class="mp-kicker">Acesso</p>
-    <h1 class="mp-title">Entre.</h1>
-    <form [formGroup]="userForm" (submit)="login()" class="mp-form" style="margin-top: 2rem;">
-      <div>
-        <label class="mp-label" for="username">Usuário</label>
-        <input class="mp-input" formControlName="username" id="username" type="text" name="username" required autocomplete="username" />
-      </div>
-      <div>
-        <label class="mp-label" for="password">Senha</label>
-        <input class="mp-input" formControlName="password" id="password" type="password" name="password" required autocomplete="current-password" />
-      </div>
+    <h1 class="mp-title" style="font-size: clamp(2.2rem, 5vw, 3.4rem);">Entre no MathPlatform</h1>
+    <p class="mp-lead">Continue de onde parou - aulas, exercícios e fórum.</p>
+
+    <form [formGroup]="userForm" (submit)="login(); $event.preventDefault()" class="mp-form" style="margin-top: 2rem;">
+      <label class="mp-label" for="username">
+        Nome de usuário
+        <input class="mp-input" formControlName="username" id="username" type="text" autocomplete="username" required />
+      </label>
+      <label class="mp-label" for="password">
+        Senha
+        <input
+          class="mp-input"
+          formControlName="password"
+          id="password"
+          type="password"
+          autocomplete="current-password"
+          required
+        />
+      </label>
       <button type="submit" class="mp-btn">Entrar</button>
-      <button type="button" class="mp-btn-ghost" (click)="loginDemo()">Entrar com conta de exemplo</button>
     </form>
-    <p style="margin-top: 1.75rem; font-size: 0.9rem;">
-      Sem conta?
-      <a routerLink="/register" class="mp-link">Registre-se</a>
+
+    <p class="mp-muted" style="margin-top: 1.5rem;">
+      Não tem conta?
+      <a routerLink="/register" style="color: var(--mp-accent); font-weight: 700;">Registre-se</a>
     </p>
   </div>
-  <div class="mp-auth-panel">
-    <svg class="mp-axis" viewBox="0 0 400 220" aria-hidden="true">
-      <line x1="24" y1="196" x2="376" y2="196" stroke="currentColor" stroke-width="1" />
-      <line x1="24" y1="24" x2="24" y2="196" stroke="currentColor" stroke-width="1" />
-      <polyline fill="none" stroke="#6a00ff" stroke-width="2"
-        points="24,168 88,140 152,148 216,92 280,108 344,48 376,40" />
-    </svg>
-  </div>
-</div>
+
+  <aside class="mp-auth-side" aria-hidden="true">
+    <img
+      src="https://images.unsplash.com/photo-1509228468518-180dd4864904?auto=format&fit=crop&w=1600&q=80"
+      alt=""
+    />
+  </aside>
+</section>

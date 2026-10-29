@@ -1,6 +1,11 @@
-<a class="mp-thread" [routerLink]="['/comments', comment()?.id]">
-  <p class="mp-exam-cat">{{ comment()?.answers?.length || 0 }}
-    {{ comment()?.answers?.length === 1 ? 'resposta' : 'respostas' }}</p>
-  <h2 class="mp-index-title">{{ comment()?.title }}</h2>
-  <p style="margin: 0.4rem 0 0; font-size: 0.85rem;">{{ comment()?.username }}</p>
+<a class="mp-lesson-row" style="margin-bottom: 0.75rem;" [routerLink]="['/comments', comment()?.id]">
+  <div class="mp-lesson-thumb" aria-hidden="true">?</div>
+  <div class="mp-lesson-body">
+    <p class="mp-muted" style="margin: 0; font-size: 0.82rem;">{{ comment()?.username || 'Anônimo' }}</p>
+    <h3>{{ comment()?.title }}</h3>
+    <p>
+      {{ comment()?.answers?.length || 0 }}
+      {{ comment()?.answers?.length === 1 ? 'resposta' : 'respostas' }}
+    </p>
+  </div>
 </a>

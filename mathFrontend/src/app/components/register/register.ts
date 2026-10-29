@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LoginService } from '../../services/login.service';
-import { ToastService } from '../../services/toast.service';
 import { Router, RouterLink } from '@angular/router';
 import { UserDto } from '../../models/UserDto';
 
@@ -12,33 +11,30 @@ import { UserDto } from '../../models/UserDto';
   styleUrl: './register.scss',
 })
 export class Register {
-
   constructor(
     private loginService: LoginService,
     private router: Router,
-    private toasts: ToastService,
   ) {
-    if (localStorage.getItem("_")?.length) {
-      router.navigate(["/home"])
+    if (localStorage.getItem('_')?.length) {
+      this.loginService.loggedIn.set(true);
+      router.navigate(['/home']);
     }
-  };
+  }
 
   userForm = new FormGroup({
-    username: new FormControl<string>("", [Validators.required]),
-    password: new FormControl<string>("", [Validators.required]),
+    username: new FormControl('', [Validators.required]),
+    password: new FormControl('', [Validators.required]),
   });
 
   register(): void {
     if (!this.userForm.valid) {
-      this.toasts.error('Preencha usuário e senha.');
+      alert('Preencha usuário e senha.');
       return;
     }
 
     this.loginService.register(this.userForm.value as UserDto).subscribe({
-      next: () => {
-        this.toasts.ok('Conta criada. Entre para continuar.');
-        this.router.navigate(["login"]);
-      },
+      next: () => this.router.navigate(['login']),
+      error: (e) => alert(e.error || 'Falha no cadastro'),
     });
   }
 }

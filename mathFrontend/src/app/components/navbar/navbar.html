@@ -4,31 +4,25 @@
     MathPlatform
   </a>
 
-  @if (login.loggedIn()) {
   <div class="mp-nav-links">
-    <app-navbar-item name="Aulas" path="/categories"></app-navbar-item>
-    <app-navbar-item name="Exercícios" path="/questions"></app-navbar-item>
-    <app-navbar-item name="Fórum" path="/comments"></app-navbar-item>
-    @if (!login.hasPremium()) {
-    <app-navbar-item name="Assinar" path="/pay"></app-navbar-item>
+    <app-navbar-item name="Início" path="/home" icon="home"></app-navbar-item>
+    <app-navbar-item name="Sobre" path="/about" icon="about"></app-navbar-item>
+    <app-navbar-item name="Aulas" path="/categories" icon="lessons"></app-navbar-item>
+    <app-navbar-item name="Exercícios" path="/questions" icon="questions"></app-navbar-item>
+    <app-navbar-item name="Fórum" path="/comments" icon="forum"></app-navbar-item>
+    @if (login.loggedIn()) {
+    <app-navbar-item name="Assinar" path="/pay" icon="pay"></app-navbar-item>
     }
   </div>
+
   <div class="mp-nav-end">
-    <button type="button" class="mp-theme" (click)="theme.toggle()">
+    <button type="button" class="mp-btn-ghost" (click)="theme.toggle()">
       {{ theme.isDark() ? 'Tema claro' : 'Tema escuro' }}
     </button>
-    <button type="button" class="mp-nav-exit" (click)="logout()">Sair</button>
+    @if (login.loggedIn()) {
+    <button type="button" class="mp-btn-ghost" (click)="logout()">Sair</button>
+    } @else {
+    <a routerLink="/login" class="mp-btn">Entrar</a>
+    }
   </div>
-  } @else {
-  <div class="mp-nav-links">
-    <app-navbar-item name="Início" path="/home"></app-navbar-item>
-    <app-navbar-item name="Sobre" path="/about"></app-navbar-item>
-  </div>
-  <div class="mp-nav-end">
-    <button type="button" class="mp-theme" (click)="theme.toggle()">
-      {{ theme.isDark() ? 'Tema claro' : 'Tema escuro' }}
-    </button>
-    <a routerLink="/login" class="mp-nav-exit">Entrar</a>
-  </div>
-  }
 </nav>

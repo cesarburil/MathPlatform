@@ -30,9 +30,9 @@ mathBackend/.mvn/wrapper/maven-wrapper.jar
 mathBackend/build/
 !**/mathBackend/src/main/**/build/
 !**/mathBackend/src/test/**/build/
-mathBackend/.env
-mathBackend/src/main/resources/application.properties
 **/src/main/resources/application.properties
+**/src/main/resources/application-local.properties
+mathBackend/.env
 
 # =========================================================================
 # Frontend
@@ -43,5 +43,3 @@ mathFrontend/.env
 mathFrontend/.production.env
 
 .env
-.DS_Store
-**/.DS_Store

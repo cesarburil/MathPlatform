@@ -1,0 +1,19 @@
+# Profile local: H2 em memoria (nao precisa Docker/Postgres)
+# IntelliJ -> Active profiles = local
+# Ou: ./mvnw spring-boot:run -Dspring-boot.run.profiles=local
+
+spring.application.name=mathBackend
+server.port=8081
+server.servlet.session.cookie.same-site=strict
+
+spring.datasource.url=jdbc:h2:mem:mathlocal;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=false
+spring.datasource.driver-class-name=org.h2.Driver
+spring.datasource.username=sa
+spring.datasource.password=
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=false
+
+pagbank.token=local-dummy-token
+site.url=http://localhost:8081
+
+application.cors.origins=http://localhost:4200,http://127.0.0.1:4200

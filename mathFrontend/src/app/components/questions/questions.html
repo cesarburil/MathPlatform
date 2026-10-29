@@ -1,41 +1,49 @@
 <section>
-  <p class="mp-kicker">Banco</p>
-  <h1 class="mp-title">Exercícios</h1>
-  <p class="mp-lead">Marque uma alternativa e verifique. O resultado aparece na própria questão.</p>
-
-  <div class="mp-exam" style="margin-top: 2.75rem;">
-    @for (question of allQuestions(); track question.id; let i = $index) {
-    <article class="mp-exam-item">
-      <p class="mp-exam-cat">{{ question.categoryName }} · {{ difficultyLabel(question.difficulty) }}</p>
-      <h2 class="mp-exam-q">{{ (i + 1).toString().padStart(2, '0') }}. {{ question.title }}</h2>
-
-      <div>
-        @for (alt of question.alternatives; track alt.id) {
-        <label class="mp-alt" for="Alt-{{ alt.id }}">
-          <input
-            (click)="selectedAltId.set(alt.id); selectedQuestionId.set(question.id)"
-            name="q-{{ question.id }}"
-            type="radio"
-            id="Alt-{{ alt.id }}">
-          <span>{{ alt.title }}</span>
-        </label>
-        }
-      </div>
-
-      <div class="mp-actions">
-        @if (selectedQuestionId() == question.id) {
-        <button type="button" (click)="verify()" class="mp-btn">Verificar</button>
-        }
-        @if (verdict()[question.id] === true) {
-        <span class="mp-live">correto</span>
-        }
-        @if (verdict()[question.id] === false) {
-        <span class="mp-index-meta">incorreto</span>
-        }
-      </div>
-    </article>
-    } @empty {
-    <p class="mp-empty">Nenhuma questão disponível.</p>
-    }
+  <div class="mp-page-head">
+    <div>
+      <p class="mp-kicker">Exercícios</p>
+      <h1 class="mp-title" style="font-size: clamp(2rem, 5vw, 3.2rem);">Banco de questões</h1>
+      <p class="mp-lead">A melhor maneira de aprender: praticando.</p>
+    </div>
   </div>
+
+  @for (question of allQuestions(); track question.id) {
+  <article class="mp-question">
+    <div style="display: flex; gap: 0.6rem; flex-wrap: wrap; align-items: center;">
+      <span class="mp-chip">{{ question.categoryName }}</span>
+      <span class="mp-chip">{{ difficultyLabel(question.difficulty) }}</span>
+    </div>
+    <h2 class="mp-title" style="font-size: 1.35rem; margin-top: 0.85rem; letter-spacing: -0.03em;">
+      {{ question.title }}
+    </h2>
+
+    <div class="mp-alts">
+      @for (alt of question.alternatives; track alt.id) {
+      <label class="mp-alt" [for]="'alt-' + alt.id">
+        <input
+          type="radio"
+          name="q-{{ question.id }}"
+          [id]="'alt-' + alt.id"
+          (change)="select(question.id, alt.id)"
+        />
+        <span>{{ alt.title }}</span>
+      </label>
+      }
+    </div>
+
+    <div style="margin-top: 1rem; display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+      @if (selectedQuestionId() === question.id) {
+      <button type="button" class="mp-btn" (click)="verify()">Verificar</button>
+      }
+      @if (verdict()[question.id] === true) {
+      <span class="mp-verdict-ok">Correto</span>
+      }
+      @if (verdict()[question.id] === false) {
+      <span class="mp-verdict-bad">Incorreto</span>
+      }
+    </div>
+  </article>
+  } @empty {
+  <p class="mp-empty">Nenhuma questão disponível.</p>
+  }
 </section>

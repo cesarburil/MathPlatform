@@ -1,5 +1,7 @@
 import { Component, input } from '@angular/core';
-import { RouterLink, RouterLinkActive } from "@angular/router";
+import { RouterLink, RouterLinkActive } from '@angular/router';
+
+export type NavIcon = 'home' | 'about' | 'lessons' | 'questions' | 'forum' | 'pay';
 
 @Component({
   selector: 'app-navbar-item',
@@ -8,8 +10,7 @@ import { RouterLink, RouterLinkActive } from "@angular/router";
   styleUrl: './navbar-item.scss',
 })
 export class NavbarItem {
-
-  path = input.required<string>();
-  name = input();
-
+  readonly name = input.required<string>();
+  readonly path = input.required<string>();
+  readonly icon = input<NavIcon>('home');
 }

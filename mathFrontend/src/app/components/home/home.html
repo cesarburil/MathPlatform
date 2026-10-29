@@ -1,139 +1,131 @@
-<section class="mp-hero mp-hero-band">
-  <div>
-    <p class="mp-kicker">Cursinho</p>
-    <h1 class="mp-title">Conheça o MathPlatform.</h1>
-    <p class="mp-lead">
-      O preparatório mais completo do Brasil com o melhor custo-benefício para você.
-      Escolha abaixo o uma opção pra se preparar pro ENEM!
-    </p>
-    <div class="mp-actions" style="margin-top: 2.25rem;">
-      @if (login.hasPremium()) {
-      <a routerLink="/categories" class="mp-btn">Ir às aulas</a>
-      } @else {
-      <button type="button" class="mp-btn" (click)="openPlan()">Ver Plano</button>
-      }
-      @if (!login.loggedIn()) {
-      <a routerLink="/login" class="mp-btn-ghost">Já tenho conta</a>
-      } @else if (!login.hasPremium()) {
-      <a routerLink="/categories" class="mp-btn-ghost">Ir às aulas</a>
-      }
-    </div>
+<section class="mp-hero">
+  <div class="mp-hero-media" aria-hidden="true">
+    <img
+      src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&w=2400&q=80"
+      alt=""
+    />
   </div>
+  <div class="mp-hero-shade" aria-hidden="true"></div>
 
-  <div class="mp-hero-art">
-    <img class="mp-asset mp-asset-logo" src="/images/mathplatform_logo.png" alt="MathPlatform">
-    <div class="mp-hero-marks">
-      <img class="mp-asset mp-asset-play" src="/images/mathplatform_playbutton.png" alt="">
-      <img class="mp-asset mp-asset-player" src="/images/mathplatform_videoplayerlogo.png" alt="">
+  <div class="mp-hero-copy">
+    <p class="mp-brand-hero mp-reveal">
+      <img
+        class="mp-brand-photo"
+        src="/images/cesar-buril.jpg"
+        alt="Cesar Buril"
+        width="56"
+        height="56"
+      />
+      <span>MathPlatform por Cesar Buril</span>
+    </p>
+    <h1 class="mp-title mp-reveal mp-reveal-delay-1">Matemática para passar!</h1>
+    <p class="mp-lead mp-reveal mp-reveal-delay-2">
+      Videoaulas, exercícios comentados e fórum de dúvidas em um só lugar - feito para o ENEM.
+    </p>
+    <div class="mp-actions mp-reveal mp-reveal-delay-3" style="margin-top: 2rem;">
+      @if (login.loggedIn()) {
+      <a routerLink="/categories" class="mp-btn">Ir às aulas</a>
+      <a routerLink="/questions" class="mp-btn-ghost">Praticar</a>
+      } @else {
+      <a routerLink="/register" class="mp-btn">Começar agora</a>
+      <a routerLink="/login" class="mp-btn-ghost">Já tenho conta</a>
+      }
     </div>
-    <p class="mp-hero-note">Videoaulas do básico ao avançado. Questões e fórum, no mesmo lugar.</p>
   </div>
 </section>
 
 <section class="mp-section">
-  <p class="mp-kicker">Histórias</p>
-  
-
-  <figure class="mp-quote">
-    <img [src]="photo" width="96" height="96" alt="Cesar Buril" referrerpolicy="no-referrer">
-    <div>
-      <blockquote>
-        Criei a plataforma do jeito que eu gosto: aulas, exercícios e possibilitar o tira dúvidas num fórum.
-        Direto ao ponto.
-      </blockquote>
-      <figcaption>
-        <strong>Cesar Buril</strong>
-        Engenheiro de Computação
-      </figcaption>
-    </div>
-  </figure>
-</section>
-
-<section id="projeto" class="mp-section">
-  <p class="mp-kicker">Portfólio</p>
-  <h2 class="mp-title">Este site é um projeto de portfólio.</h2>
-  <p class="mp-lead">
-    Recrutador, este é um sistema educacional full stack, com autenticação, user roles, pagamento e deploy, além de pipeline de CI/CD.
-  </p>
-  <ul class="mp-tech">
-    <li>
-      <img src="/tech/openjdk.svg" alt="" width="20" height="20">
-      Java
-    </li>
-    <li>
-      <img src="/tech/spring.svg" alt="" width="20" height="20">
-      Spring
-    </li>
-    <li>
-      <img src="/tech/springsecurity.svg" alt="" width="20" height="20">
-      Spring Security
-    </li>
-    <li>
-      <img src="/tech/jsonwebtokens.svg" alt="" width="20" height="20">
-      JWT
-    </li>
-    <li>
-      <img src="/tech/javascript.svg" alt="" width="20" height="20">
-      JavaScript
-    </li>
-    <li>
-      <img src="/tech/typescript.svg" alt="" width="20" height="20">
-      TypeScript
-    </li>
-    <li>
-      <img src="/tech/angular.svg" alt="" width="20" height="20">
-      Angular
-    </li>
-    <li>
-      <img src="/tech/docker.svg" alt="" width="20" height="20">
-      Docker
-    </li>
-    <li>
-      <img src="/tech/git.svg" alt="" width="20" height="20">
-      Git
-    </li>
-    <li>
-      <img src="/tech/swagger.svg" alt="" width="20" height="20">
-      Swagger
-    </li>
-    <li>
-      <img src="/tech/postman.svg" alt="" width="20" height="20">
-      Postman
-    </li>
-    <li>
-      <img src="/tech/githubactions.svg" alt="" width="20" height="20">
-      CI/CD
-    </li>
-    <li>
-      <img src="/tech/visualstudiocode.svg" alt="" width="20" height="20">
-      VS Code
-    </li>
-    <li>
-      <img src="/tech/intellijidea.svg" alt="" width="20" height="20">
-      IntelliJ
-    </li>
-  </ul>
-</section>
-
-@if (planOpen()) {
-<div class="mp-modal-backdrop" (click)="closePlan()">
-  <div class="mp-modal" role="dialog" aria-modal="true" aria-labelledby="plan-title" (click)="$event.stopPropagation()">
-    <p class="mp-kicker">Plano</p>
-    <h2 id="plan-title" class="mp-title">{{ duration }}</h2>
-    <p class="mp-price" style="margin-top: 0.75rem;">{{ price }}</p>
-    <ul class="mp-plan-list">
-      <li>Curso completo de Matemática</li>
-      <li>Questões em vídeo</li>
-      <li>Fórum para dúvidas</li>
-    </ul>
-    <p class="mp-lead" style="margin-top: 1.25rem;">
-      Para ver aulas, exercícios e fórum, entre com a conta de exemplo. Cadastro real continua disponível.
+  <div class="mp-section-inner">
+    <p class="mp-kicker">O sistema</p>
+    <h2 class="mp-title" style="font-size: clamp(2rem, 5vw, 3.4rem); max-width: 16ch;">
+      Estude com direção e com prática!
+    </h2>
+    <p class="mp-lead">
+      Aulas em vídeo, banco de questões e fórum de dúvidas.
     </p>
-    <div class="mp-actions" style="margin-top: 1.5rem;">
-      <button type="button" class="mp-btn" (click)="enterDemo()">Entrar com conta de exemplo</button>
-      <a routerLink="/login" class="mp-btn-ghost" (click)="closePlan()">Já tenho conta</a>
+
+    <div class="mp-features">
+      <a routerLink="/categories" class="mp-feature">
+        <div class="mp-feature-art" aria-hidden="true">
+          <svg class="mp-line-art" viewBox="0 0 160 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="18" y="18" width="124" height="60" rx="4" class="mp-stroke" />
+            <circle cx="80" cy="48" r="16" class="mp-stroke" />
+            <path d="M75 40.5 L92 48 L75 55.5 Z" class="mp-fill" />
+            <path d="M28 86 H70" class="mp-stroke mp-stroke-soft" stroke-linecap="round" />
+            <path d="M78 86 H132" class="mp-stroke mp-stroke-soft" stroke-linecap="round" />
+          </svg>
+        </div>
+        <div class="mp-feature-copy">
+          <span class="mp-index-num">01</span>
+          <h3 class="mp-feature-title">Aulas por tema</h3>
+          <p class="mp-feature-text">
+            Categorias do ENEM com videoaulas curtas. Abra o tema, escolha a aula e continue de onde parou.
+          </p>
+          <span class="mp-feature-cta">Assistir</span>
+        </div>
+      </a>
+
+      <a routerLink="/questions" class="mp-feature">
+        <div class="mp-feature-art" aria-hidden="true">
+          <svg class="mp-line-art" viewBox="0 0 160 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M28 18 H132" class="mp-stroke mp-stroke-soft" stroke-linecap="round" />
+            <path d="M28 28 H108" class="mp-stroke mp-stroke-soft" stroke-linecap="round" />
+            <circle cx="34" cy="48" r="7" class="mp-stroke" />
+            <circle cx="34" cy="48" r="3.2" class="mp-fill" />
+            <path d="M48 48 H128" class="mp-stroke" stroke-linecap="round" />
+            <circle cx="34" cy="68" r="7" class="mp-stroke" />
+            <path d="M48 68 H118" class="mp-stroke mp-stroke-soft" stroke-linecap="round" />
+            <circle cx="34" cy="88" r="7" class="mp-stroke mp-stroke-soft" />
+            <path d="M48 88 H110" class="mp-stroke mp-stroke-soft" stroke-linecap="round" />
+          </svg>
+        </div>
+        <div class="mp-feature-copy">
+          <span class="mp-index-num">02</span>
+          <h3 class="mp-feature-title">Banco de exercícios</h3>
+          <p class="mp-feature-text">
+            Questões de múltipla escolha com correção no servidor. Marque a alternativa e veja se fechou.
+          </p>
+          <span class="mp-feature-cta">Praticar</span>
+        </div>
+      </a>
+
+      <a routerLink="/comments" class="mp-feature">
+        <div class="mp-feature-art" aria-hidden="true">
+          <svg class="mp-line-art" viewBox="0 0 160 96" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="36" cy="26" r="10" class="mp-stroke" />
+            <path d="M54 22 H124" class="mp-stroke" stroke-linecap="round" />
+            <path d="M54 32 H98" class="mp-stroke mp-stroke-soft" stroke-linecap="round" />
+            <path d="M24 48 H136" class="mp-stroke mp-stroke-faint" stroke-linecap="round" />
+            <rect x="30" y="56" width="3" height="30" rx="1.5" class="mp-fill-soft" />
+            <path d="M42 62 H128" class="mp-stroke mp-stroke-soft" stroke-linecap="round" />
+            <path d="M42 74 H118" class="mp-stroke mp-stroke-soft" stroke-linecap="round" />
+            <path d="M42 86 H102" class="mp-stroke mp-stroke-soft" stroke-linecap="round" />
+          </svg>
+        </div>
+        <div class="mp-feature-copy">
+          <span class="mp-index-num">03</span>
+          <h3 class="mp-feature-title">Fórum de dúvidas</h3>
+          <p class="mp-feature-text">
+            Abra um tópico com sua dúvida e acompanhe respostas. Conversa objetiva, ligada ao que você está estudando.
+          </p>
+          <span class="mp-feature-cta">Perguntar</span>
+        </div>
+      </a>
     </div>
-    <button type="button" class="mp-modal-close" (click)="closePlan()">Fechar</button>
   </div>
-</div>
-}
+</section>
+
+<section class="mp-section" style="padding-top: 0;">
+  <div class="mp-section-inner">
+    <p class="mp-kicker">Portfólio</p>
+    <h2 class="mp-title" style="font-size: clamp(2rem, 5vw, 3.2rem); max-width: 16ch;">
+      Tecnologias usadas
+    </h2>
+    <p class="mp-lead">
+      Java 21, Spring Boot, JWT, Angular, PostgreSQL, PagBank, Docker e CI/CD  reais.
+    </p>
+    <div class="mp-actions" style="margin-top: 1.75rem;">
+      <a routerLink="/about" class="mp-btn-soft">Ver o projeto</a>
+    </div>
+  </div>
+</section>

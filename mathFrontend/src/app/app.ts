@@ -1,26 +1,29 @@
-import { Component, signal } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
-import { Navbar } from "./components/navbar/navbar";
-import { ToastHost } from "./components/toast/toast";
-import { filter } from 'rxjs';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { filter, map, startWith } from 'rxjs';
+import { Navbar } from './components/navbar/navbar';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Navbar, ToastHost],
+  imports: [RouterOutlet, Navbar],
   templateUrl: './app.html',
-  styleUrl: './app.scss'
+  styleUrl: './app.scss',
 })
 export class App {
-  protected readonly title = signal('mathFrontend');
-  protected readonly isAuthPage = signal(false);
-  protected readonly isWatchPage = signal(false);
+  private readonly router = inject(Router);
 
-  constructor(router: Router) {
-    router.events.pipe(filter((e): e is NavigationEnd => e instanceof NavigationEnd))
-      .subscribe((e) => {
-        const url = e.urlAfterRedirects;
-        this.isAuthPage.set(url.startsWith('/login') || url.startsWith('/register') || url.startsWith('/about'));
-        this.isWatchPage.set(url.startsWith('/watch'));
-      });
-  }
+  private readonly url = toSignal(
+    this.router.events.pipe(
+      filter((event): event is NavigationEnd => event instanceof NavigationEnd),
+      map((event) => event.urlAfterRedirects),
+      startWith(this.router.url),
+    ),
+    { initialValue: this.router.url },
+  );
+
+  readonly isFlush = computed(() => {
+    const path = this.url().split('?')[0];
+    return path === '/' || path === '/home';
+  });
 }

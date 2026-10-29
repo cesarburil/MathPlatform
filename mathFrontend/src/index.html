@@ -5,14 +5,19 @@
   <title>MathPlatform</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="MathPlatform - aulas, exercícios e fórum de matemática. Projeto full stack com Spring Boot, Angular, JWT e PagBank.">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Literata:opsz,wght@7..72,400;7..72,600&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
   <script>
-    document.documentElement.setAttribute(
-      'data-theme',
-      localStorage.getItem('mp-theme') === 'dark' ? 'dark' : 'light'
-    );
+    (function () {
+      try {
+        var t = localStorage.getItem('mp-theme');
+        var dark = t ? t === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+      } catch (e) {}
+    })();
   </script>
 </head>
 <body>

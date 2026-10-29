@@ -1,7 +1,6 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { CommentsService } from '../../services/comments.service';
 import { CommentResponse } from '../../models/CommentResponse';
-import { ToastService } from '../../services/toast.service';
 import { Comment } from "./comment/comment";
 
 @Component({
@@ -12,21 +11,13 @@ import { Comment } from "./comment/comment";
 })
 export class Comments implements OnInit {
 
-  constructor(
-    private commentsService: CommentsService,
-    private toasts: ToastService,
-  ) { }
+  constructor(private commentsService: CommentsService) { }
 
   comments = signal<CommentResponse[]>([]);
 
   addComment() {
-    if (!this.newCommentTitle().trim()) {
-      this.toasts.error('Escreva um título para o tópico.');
-      return;
-    }
     this.commentsService.addComment({ title: this.newCommentTitle() }).subscribe((result) => {
       this.comments.update((comments) => [...comments, result]);
-      this.newCommentTitle.set('');
     });
   }
 

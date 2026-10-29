@@ -1,19 +1,38 @@
 <section>
-  <div class="mp-actions" style="margin-bottom: 1.5rem;">
+  <div class="mp-page-head">
+    <div>
+      <p class="mp-kicker">Tópico</p>
+      <h1 class="mp-title" style="font-size: clamp(1.8rem, 4vw, 2.6rem);">
+        {{ selectedComment()?.title || '…' }}
+      </h1>
+      <p class="mp-lead">por {{ selectedComment()?.username || 'Anônimo' }}</p>
+    </div>
     <a routerLink="/comments" class="mp-btn-ghost">Voltar</a>
   </div>
 
-  <app-comment [comment]="selectedComment()"></app-comment>
+  <div class="mp-forum-compose">
+    <input
+      class="mp-input"
+      type="text"
+      placeholder="Escreva uma resposta"
+      [value]="newAnswerTitle()"
+      (input)="newAnswerTitle.set($any($event.target).value)"
+      aria-label="Resposta"
+    />
+    <button type="button" class="mp-btn" (click)="addAnswer()">Responder</button>
+  </div>
 
-  <form class="mp-form" style="margin: 2rem 0;" (submit)="$event.preventDefault()">
-    <div>
-      <label class="mp-label" for="new-answer">Resposta</label>
-      <input id="new-answer" [value]="newAnswerTitle()" (input)="newAnswerTitle.set($any($event.target).value)" class="mp-input" type="text" placeholder="Escreva">
+  <div class="mp-index">
+    @for (answer of selectedComment()?.answers; track answer.id) {
+    <div class="mp-index-row" style="cursor: default;">
+      <span class="mp-index-num">↳</span>
+      <span class="mp-index-title" style="font-size: 1rem; font-family: var(--mp-font-ui); font-weight: 600;">
+        {{ answer.title }}
+      </span>
+      <span class="mp-index-meta">{{ answer.username || 'Anônimo' }}</span>
     </div>
-    <button type="button" (click)="addAnswer()" class="mp-btn">Responder</button>
-  </form>
-
-  @for (answer of selectedComment()?.answers; track answer.id) {
-  <p class="mp-reply"><strong>{{ answer.username || 'Anônimo' }}</strong> {{ answer.title }}</p>
-  }
+    } @empty {
+    <p class="mp-empty">Ainda sem respostas.</p>
+    }
+  </div>
 </section>
