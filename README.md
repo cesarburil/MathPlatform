@@ -13,7 +13,7 @@
 > Projeto de portfólio de [Cesar Buril](https://github.com/cesarburil), Engenheiro de Computação.  
 > **Publicado (utilize agora mesmo):** [math.cesarburil.com.br](https://math.cesarburil.com.br) · conta de exemplo: `demo` / `demo`
 
-![MathPlatform — home, aula, checkout e exercícios](docs/print_sistema.png)
+![MathPlatform — home, aula, checkout e exercícios](docs/print_sistema_v2.jpg)
 
 ## Arquitetura
 
